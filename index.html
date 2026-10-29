@@ -565,6 +565,163 @@
       border: 1px solid var(--border);
       border-radius: 12px;
     }
+
+    /* Static Thumbnail Hover / Long-Press Preview Pop-Up */
+    .thumb-preview-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(5, 8, 14, 0.65);
+      backdrop-filter: blur(3px);
+      z-index: 998;
+      display: none;
+    }
+    .thumb-preview-backdrop.visible {
+      display: block;
+    }
+    .thumb-preview-popover {
+      position: fixed;
+      z-index: 999;
+      width: 332px;
+      background: #111622;
+      border: 1px solid rgba(245, 166, 35, 0.55);
+      border-radius: 12px;
+      box-shadow: 0 18px 44px rgba(0, 0, 0, 0.82), 0 0 0 1px rgba(255, 255, 255, 0.05);
+      overflow: hidden;
+      display: none;
+      opacity: 0;
+      transform: translateY(4px) scale(0.98);
+      transition: opacity 0.14s ease, transform 0.14s ease;
+      pointer-events: auto;
+    }
+    .thumb-preview-popover.visible {
+      display: block;
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+    .thumb-preview-header {
+      padding: 9px 12px;
+      background: #161d2b;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .thumb-preview-title {
+      font-family: Consolas, monospace;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--accent-gold);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      flex: 1;
+    }
+    .thumb-preview-dur {
+      font-family: Consolas, monospace;
+      font-size: 11px;
+      font-weight: 700;
+      color: #e2e8f0;
+      background: #0b0e14;
+      border: 1px solid var(--border);
+      padding: 2px 6px;
+      border-radius: 5px;
+      flex-shrink: 0;
+    }
+    .thumb-preview-close {
+      background: transparent;
+      border: none;
+      color: var(--text-secondary);
+      font-size: 14px;
+      cursor: pointer;
+      padding: 0 2px;
+      line-height: 1;
+      display: none;
+    }
+    .thumb-preview-popover.mobile-mode .thumb-preview-close {
+      display: inline-block;
+    }
+    .thumb-preview-link {
+      display: block;
+      position: relative;
+      width: 100%;
+      height: 186px;
+      background: #070a0f;
+      text-decoration: none;
+      overflow: hidden;
+    }
+    .thumb-preview-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.2s ease, opacity 0.18s ease;
+      opacity: 0;
+    }
+    .thumb-preview-img.loaded {
+      opacity: 1;
+    }
+    .thumb-preview-link:hover .thumb-preview-img.loaded {
+      transform: scale(1.03);
+    }
+    .thumb-preview-status {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      color: var(--text-secondary);
+      font-size: 12px;
+      padding: 16px;
+      text-align: center;
+      pointer-events: none;
+    }
+    .thumb-preview-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.18) 55%, rgba(0,0,0,0.82) 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px;
+      pointer-events: none;
+    }
+    .thumb-play-circle {
+      margin-top: 44px;
+      width: 46px;
+      height: 46px;
+      border-radius: 99px;
+      background: rgba(220, 38, 38, 0.9);
+      border: 2px solid rgba(255, 255, 255, 0.85);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      padding-left: 3px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.65);
+    }
+    .thumb-cta-bar {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 11.5px;
+      font-weight: 700;
+      color: #fff;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.9);
+    }
+    .thumb-cta-pill {
+      background: rgba(245, 166, 35, 0.22);
+      border: 1px solid rgba(245, 166, 35, 0.6);
+      color: #fde68a;
+      padding: 2px 8px;
+      border-radius: 99px;
+      font-size: 10.5px;
+    }
   </style>
 </head>
 <body>
@@ -653,6 +810,27 @@
       <div class="video-list" id="videoListContainer"></div>
       <button class="load-more-btn" id="loadMoreBtn" style="display:none;">Show More Videos</button>
     </main>
+  </div>
+
+  <!-- Static Thumbnail Hover / Long-Press Preview Pop-Up (No video playback — static thumbnail only) -->
+  <div class="thumb-preview-backdrop" id="thumbPreviewBackdrop"></div>
+  <div class="thumb-preview-popover" id="thumbPreviewPopover" role="dialog" aria-hidden="true">
+    <div class="thumb-preview-header">
+      <div class="thumb-preview-title" id="thumbPreviewTitle"></div>
+      <div class="thumb-preview-dur" id="thumbPreviewDur"></div>
+      <button class="thumb-preview-close" id="thumbPreviewCloseBtn" title="Close preview">✕</button>
+    </div>
+    <a class="thumb-preview-link" id="thumbPreviewLink" href="#" target="_blank" rel="noopener">
+      <div class="thumb-preview-status" id="thumbPreviewStatus">Loading thumbnail preview...</div>
+      <div id="thumbPreviewImgMount" style="width:100%;height:100%;"></div>
+      <div class="thumb-preview-overlay">
+        <div class="thumb-play-circle">▶</div>
+        <div class="thumb-cta-bar">
+          <span class="thumb-cta-pill">Static Preview</span>
+          <span>Click to Watch Full Video ↗</span>
+        </div>
+      </div>
+    </a>
   </div>
 
   <script>
@@ -961,7 +1139,12 @@
               '</div>' +
               '<div class="video-actions">' +
                 '<div class="duration-badge">' + durDisplay + '</div>' +
-                '<a class="watch-btn" href="' + escapeHtml(it.url) + '" target="_blank" rel="noopener">▶ Watch Video</a>' +
+                '<a class="watch-btn" href="' + escapeHtml(it.url) + '" target="_blank" rel="noopener" ' +
+                  'data-thumb="' + escapeHtml(it.thumb || '') + '" ' +
+                  'data-title="' + escapeHtml(it.title || '') + '" ' +
+                  'data-dur="' + escapeHtml(durDisplay) + '">' +
+                  '▶ Watch Video' +
+                '</a>' +
               '</div>' +
             '</div>'
           );
@@ -975,6 +1158,213 @@
           loadMoreBtn.style.display = 'none';
         }
       }
+
+      // --- Static Thumbnail Hover (Desktop) & Long-Press (Mobile) Preview Logic ---
+      const previewPopover = document.getElementById('thumbPreviewPopover');
+      const previewBackdrop = document.getElementById('thumbPreviewBackdrop');
+      const previewTitleEl = document.getElementById('thumbPreviewTitle');
+      const previewDurEl = document.getElementById('thumbPreviewDur');
+      const previewLinkEl = document.getElementById('thumbPreviewLink');
+      const previewStatusEl = document.getElementById('thumbPreviewStatus');
+      const previewImgMount = document.getElementById('thumbPreviewImgMount');
+      const previewCloseBtn = document.getElementById('thumbPreviewCloseBtn');
+
+      let hoverShowTimer = null;
+      let hoverHideTimer = null;
+      let touchPressTimer = null;
+      let activeWatchBtn = null;
+      let isMobilePreviewOpen = false;
+      let suppressNextClick = false;
+
+      function positionPopoverNearButton(btn, mobileCentered) {
+        const popW = 332;
+        const popH = 228;
+        if (mobileCentered || window.innerWidth <= 640) {
+          previewPopover.classList.add('mobile-mode');
+          previewBackdrop.classList.add('visible');
+          previewPopover.style.left = Math.max(12, Math.round((window.innerWidth - popW) / 2)) + 'px';
+          previewPopover.style.top = Math.max(20, Math.round((window.innerHeight - popH) / 2)) + 'px';
+          return;
+        }
+        previewPopover.classList.remove('mobile-mode');
+        previewBackdrop.classList.remove('visible');
+
+        const rect = btn.getBoundingClientRect();
+        let left = rect.right - popW;
+        if (left < 12) left = 12;
+        if (left + popW > window.innerWidth - 12) {
+          left = window.innerWidth - popW - 12;
+        }
+
+        // Prefer showing above the button if there is room, otherwise below
+        let top = rect.top - popH - 10;
+        if (top < 12) {
+          top = rect.bottom + 10;
+        }
+        if (top + popH > window.innerHeight - 12) {
+          top = Math.max(12, window.innerHeight - popH - 12);
+        }
+
+        previewPopover.style.left = Math.round(left) + 'px';
+        previewPopover.style.top = Math.round(top) + 'px';
+      }
+
+      function showThumbnailPreview(btn, mobileCentered) {
+        if (!btn) return;
+        const thumbUrl = btn.getAttribute('data-thumb') || '';
+        const title = btn.getAttribute('data-title') || 'Video Preview';
+        const dur = btn.getAttribute('data-dur') || '';
+        const href = btn.getAttribute('href') || '#';
+
+        activeWatchBtn = btn;
+        isMobilePreviewOpen = !!mobileCentered;
+
+        previewTitleEl.textContent = title;
+        previewDurEl.textContent = dur;
+        previewLinkEl.setAttribute('href', href);
+        previewImgMount.innerHTML = '';
+
+        if (!thumbUrl) {
+          previewStatusEl.textContent = 'Thumbnail preview unavailable for this older archive item. Click to watch full video.';
+          previewStatusEl.style.display = 'flex';
+        } else {
+          previewStatusEl.textContent = 'Loading preview image...';
+          previewStatusEl.style.display = 'flex';
+
+          const img = document.createElement('img');
+          img.className = 'thumb-preview-img';
+          img.setAttribute('referrerpolicy', 'no-referrer');
+          img.setAttribute('alt', 'Video Thumbnail');
+          img.onload = function() {
+            img.classList.add('loaded');
+            previewStatusEl.style.display = 'none';
+          };
+          img.onerror = function() {
+            previewStatusEl.textContent = 'Preview image unavailable. Click to watch full video.';
+            previewStatusEl.style.display = 'flex';
+          };
+          img.src = thumbUrl;
+          previewImgMount.appendChild(img);
+        }
+
+        positionPopoverNearButton(btn, mobileCentered);
+        previewPopover.classList.add('visible');
+        previewPopover.setAttribute('aria-hidden', 'false');
+      }
+
+      function hideThumbnailPreview() {
+        if (hoverShowTimer) { clearTimeout(hoverShowTimer); hoverShowTimer = null; }
+        if (hoverHideTimer) { clearTimeout(hoverHideTimer); hoverHideTimer = null; }
+        activeWatchBtn = null;
+        isMobilePreviewOpen = false;
+        previewPopover.classList.remove('visible', 'mobile-mode');
+        previewBackdrop.classList.remove('visible');
+        previewPopover.setAttribute('aria-hidden', 'true');
+        previewImgMount.innerHTML = '';
+      }
+
+      function scheduleHidePreview(delayMs) {
+        if (isMobilePreviewOpen) return;
+        if (hoverHideTimer) clearTimeout(hoverHideTimer);
+        hoverHideTimer = setTimeout(() => {
+          hideThumbnailPreview();
+        }, delayMs || 180);
+      }
+
+      // Desktop Hover Handlers
+      const videoListEl = document.getElementById('videoListContainer');
+      videoListEl.addEventListener('mouseover', e => {
+        const btn = e.target.closest('.watch-btn');
+        if (!btn) return;
+        if (hoverHideTimer) { clearTimeout(hoverHideTimer); hoverHideTimer = null; }
+        if (activeWatchBtn === btn && previewPopover.classList.contains('visible')) return;
+        if (hoverShowTimer) clearTimeout(hoverShowTimer);
+        hoverShowTimer = setTimeout(() => {
+          showThumbnailPreview(btn, false);
+        }, 160);
+      });
+
+      videoListEl.addEventListener('mouseout', e => {
+        const btn = e.target.closest('.watch-btn');
+        if (!btn) return;
+        const related = e.relatedTarget;
+        if (related && (btn.contains(related) || previewPopover.contains(related))) return;
+        if (hoverShowTimer) { clearTimeout(hoverShowTimer); hoverShowTimer = null; }
+        scheduleHidePreview(180);
+      });
+
+      previewPopover.addEventListener('mouseenter', () => {
+        if (hoverHideTimer) { clearTimeout(hoverHideTimer); hoverHideTimer = null; }
+      });
+
+      previewPopover.addEventListener('mouseleave', e => {
+        if (isMobilePreviewOpen) return;
+        const related = e.relatedTarget;
+        if (related && activeWatchBtn && activeWatchBtn.contains(related)) return;
+        scheduleHidePreview(150);
+      });
+
+      // Mobile Long-Press Handlers on Watch Button
+      videoListEl.addEventListener('touchstart', e => {
+        const btn = e.target.closest('.watch-btn');
+        if (!btn) return;
+        suppressNextClick = false;
+        if (touchPressTimer) clearTimeout(touchPressTimer);
+        touchPressTimer = setTimeout(() => {
+          touchPressTimer = null;
+          suppressNextClick = true;
+          showThumbnailPreview(btn, true);
+        }, 420);
+      }, { passive: true });
+
+      videoListEl.addEventListener('touchend', () => {
+        if (touchPressTimer) {
+          clearTimeout(touchPressTimer);
+          touchPressTimer = null;
+        }
+      }, { passive: true });
+
+      videoListEl.addEventListener('touchmove', () => {
+        if (touchPressTimer) {
+          clearTimeout(touchPressTimer);
+          touchPressTimer = null;
+        }
+      }, { passive: true });
+
+      videoListEl.addEventListener('contextmenu', e => {
+        const btn = e.target.closest('.watch-btn');
+        if (btn && isMobilePreviewOpen) {
+          e.preventDefault();
+        }
+      });
+
+      videoListEl.addEventListener('click', e => {
+        const btn = e.target.closest('.watch-btn');
+        if (btn && suppressNextClick) {
+          e.preventDefault();
+          suppressNextClick = false;
+        }
+      });
+
+      previewBackdrop.addEventListener('click', () => hideThumbnailPreview());
+      previewCloseBtn.addEventListener('click', e => {
+        e.preventDefault();
+        e.stopPropagation();
+        hideThumbnailPreview();
+      });
+      previewLinkEl.addEventListener('click', () => {
+        setTimeout(() => hideThumbnailPreview(), 120);
+      });
+      window.addEventListener('scroll', () => {
+        if (!isMobilePreviewOpen && previewPopover.classList.contains('visible')) {
+          hideThumbnailPreview();
+        }
+      }, { passive: true });
+      window.addEventListener('keydown', e => {
+        if (e.key === 'Escape' && previewPopover.classList.contains('visible')) {
+          hideThumbnailPreview();
+        }
+      });
 
       // Event Listeners
       document.getElementById('perfListContainer').addEventListener('click', e => {
