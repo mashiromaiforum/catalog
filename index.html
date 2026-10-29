@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>MashiroMai · Video Archive & Performer Catalog</title>
+  <style>
+    :root {
+      --bg-main: #0b0e14;
+      --bg-card: #131822;
+      --bg-card-hover: #1a2130;
+      --bg-sidebar: #0f131c;
+      --border: #232c3d;
+      --border-highlight: #3b82f6;
+      --text-primary: #f1f5f9;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+      --accent-gold: #f5a623;
+      --accent-blue: #3b82f6;
+      --accent-red: #ef4444;
+      --accent-green: #10b981;
+      --accent-purple: #8b5cf6;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg-main);
+      color: var(--text-primary);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, sans-serif;
+      min-height: 100vh;
+      line-height: 1.45;
+    }
+    /* Top Header */
+    .top-header {
+      background: linear-gradient(180deg, #141b29 0%, #0d1119 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 18px 24px;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(12px);
+    }
+    .header-inner {
+      max-width: 1440px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .brand-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+    }
+    .brand-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #f5a623, #d32f2f);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 18px;
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(245, 166, 35, 0.3);
+    }
+    .brand-title {
+      font-size: 19px;
+      font-weight: 800;
+      letter-spacing: 0.4px;
+      color: #fff;
+    }
+    .brand-sub {
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+    .stats-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .stat-pill {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 6px 12px;
+      font-size: 12px;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .stat-pill strong {
+      color: var(--accent-gold);
+      font-size: 13px;
+      font-family: Consolas, monospace;
+    }
+    .forum-links {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .forum-btn {
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 7px 12px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: #172030;
+      color: var(--text-primary);
+      transition: all 0.15s;
+    }
+    .forum-btn:hover {
+      border-color: var(--accent-gold);
+      color: var(--accent-gold);
+    }
+
+    /* Main Container */
+    .layout-container {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 20px 24px;
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 22px;
+      align-items: start;
+    }
+    @media (max-width: 960px) {
+      .layout-container {
+        grid-template-columns: 1fr;
+        padding: 14px;
+      }
+    }
+
+    /* Sidebar Performer Directory */
+    .sidebar {
+      background: var(--bg-sidebar);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      position: sticky;
+      top: 86px;
+      max-height: calc(100vh - 106px);
+      display: flex;
+      flex-direction: column;
+    }
+    @media (max-width: 960px) {
+      .sidebar {
+        position: static;
+        max-height: 340px;
+      }
+    }
+    .sidebar-header {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border);
+      background: #131926;
+    }
+    .sidebar-title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    .sidebar-title {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: var(--accent-gold);
+    }
+    .sidebar-sort-btns {
+      display: flex;
+      gap: 4px;
+    }
+    .mini-tab {
+      background: #1c2436;
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .mini-tab.active {
+      background: var(--accent-blue);
+      border-color: var(--accent-blue);
+      color: #fff;
+      font-weight: 600;
+    }
+    .perf-search {
+      width: 100%;
+      background: #0b0e14;
+      border: 1px solid var(--border);
+      color: var(--text-primary);
+      padding: 8px 11px;
+      border-radius: 7px;
+      font-size: 12.5px;
+      outline: none;
+    }
+    .perf-search:focus {
+      border-color: var(--accent-blue);
+    }
+    .perf-list {
+      overflow-y: auto;
+      flex: 1;
+      padding: 8px;
+    }
+    .perf-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 10px;
+      border-radius: 7px;
+      cursor: pointer;
+      font-size: 13px;
+      color: var(--text-primary);
+      transition: background 0.12s;
+      margin-bottom: 2px;
+    }
+    .perf-item:hover {
+      background: var(--bg-card-hover);
+    }
+    .perf-item.active {
+      background: rgba(245, 166, 35, 0.16);
+      border: 1px solid rgba(245, 166, 35, 0.45);
+      color: var(--accent-gold);
+      font-weight: 700;
+    }
+    .perf-name {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      padding-right: 8px;
+    }
+    .perf-count {
+      background: #1e293b;
+      color: var(--text-secondary);
+      font-family: Consolas, monospace;
+      font-size: 11px;
+      padding: 2px 7px;
+      border-radius: 99px;
+      flex-shrink: 0;
+    }
+    .perf-item.active .perf-count {
+      background: var(--accent-gold);
+      color: #0b0e14;
+      font-weight: 700;
+    }
+
+    /* Spotlight Banner (Active Performer) */
+    .spotlight-banner {
+      background: linear-gradient(135deg, rgba(245, 166, 35, 0.14) 0%, rgba(59, 130, 246, 0.1) 100%);
+      border: 1px solid rgba(245, 166, 35, 0.4);
+      border-radius: 12px;
+      padding: 18px 20px;
+      margin-bottom: 18px;
+      display: none;
+    }
+    .spotlight-banner.visible {
+      display: block;
+    }
+    .spotlight-top {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .spotlight-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--accent-gold);
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .spotlight-name {
+      font-size: 24px;
+      font-weight: 800;
+      color: #fff;
+      font-family: Consolas, monospace;
+    }
+    .spotlight-meta {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-top: 4px;
+    }
+    .clear-perf-btn {
+      background: #1e293b;
+      border: 1px solid #475569;
+      color: #fff;
+      padding: 9px 15px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .clear-perf-btn:hover {
+      background: var(--accent-blue);
+      border-color: var(--accent-blue);
+    }
+    .co-perf-row {
+      margin-top: 12px;
+      padding-top: 10px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      font-size: 12px;
+      color: var(--text-secondary);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
+    }
+    .alias-chip {
+      background: rgba(59, 130, 246, 0.16);
+      border: 1px solid rgba(59, 130, 246, 0.35);
+      color: #93c5fd;
+      padding: 3px 9px;
+      border-radius: 99px;
+      font-size: 11.5px;
+      cursor: pointer;
+      font-family: Consolas, monospace;
+    }
+    .alias-chip:hover {
+      background: var(--accent-blue);
+      color: #fff;
+    }
+
+    /* Filter & Search Controls */
+    .controls-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    .controls-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .search-box-wrap {
+      flex: 1;
+      min-width: 240px;
+      position: relative;
+    }
+    .main-search {
+      width: 100%;
+      background: #0b0e14;
+      border: 1px solid var(--border);
+      color: var(--text-primary);
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 14px;
+      outline: none;
+    }
+    .main-search:focus {
+      border-color: var(--accent-gold);
+    }
+    .filter-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .filter-btn {
+      background: #0b0e14;
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      padding: 8px 13px;
+      border-radius: 8px;
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .filter-btn.active {
+      background: var(--accent-blue);
+      border-color: var(--accent-blue);
+      color: #fff;
+    }
+    .sort-select {
+      background: #0b0e14;
+      border: 1px solid var(--border);
+      color: var(--text-primary);
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 12.5px;
+      outline: none;
+      cursor: pointer;
+    }
+
+    /* Results Info Bar */
+    .results-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      font-size: 13px;
+      color: var(--text-secondary);
+      padding: 0 4px;
+    }
+
+    /* Video Rows / Cards */
+    .video-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .video-row {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .video-row:hover {
+      background: var(--bg-card-hover);
+      border-color: #334155;
+    }
+    @media (max-width: 680px) {
+      .video-row {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .video-actions {
+        width: 100%;
+        justify-content: space-between;
+      }
+    }
+    .video-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+      flex: 1;
+    }
+    .video-idx {
+      font-family: Consolas, monospace;
+      font-size: 12px;
+      color: var(--text-muted);
+      min-width: 32px;
+    }
+    .video-info {
+      min-width: 0;
+      flex: 1;
+    }
+    .video-title {
+      font-family: Consolas, monospace;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--accent-gold);
+      word-break: break-word;
+    }
+    .video-sub {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      margin-top: 4px;
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+    .tag-badge {
+      font-size: 11px;
+      padding: 1px 7px;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+    .tag-primary {
+      background: rgba(245, 166, 35, 0.15);
+      color: #fbbf24;
+      border: 1px solid rgba(245, 166, 35, 0.3);
+    }
+    .tag-secondary {
+      background: rgba(59, 130, 246, 0.15);
+      color: #60a5fa;
+      border: 1px solid rgba(59, 130, 246, 0.3);
+    }
+    .tag-archive {
+      background: rgba(139, 92, 246, 0.15);
+      color: #c4b5fd;
+      border: 1px solid rgba(139, 92, 246, 0.3);
+    }
+    .perf-pill-mini {
+      background: rgba(255,255,255,0.06);
+      color: #cbd5e1;
+      padding: 1px 7px;
+      border-radius: 4px;
+      font-family: Consolas, monospace;
+      font-size: 11px;
+      cursor: pointer;
+    }
+    .perf-pill-mini:hover {
+      background: var(--accent-blue);
+      color: #fff;
+    }
+    .video-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+    .duration-badge {
+      font-family: Consolas, monospace;
+      font-size: 13px;
+      font-weight: 700;
+      color: #e2e8f0;
+      background: #0b0e14;
+      border: 1px solid var(--border);
+      padding: 6px 10px;
+      border-radius: 7px;
+      min-width: 88px;
+      text-align: center;
+    }
+    .watch-btn {
+      text-decoration: none;
+      background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+      color: #fff;
+      font-weight: 700;
+      font-size: 13px;
+      padding: 8px 16px;
+      border-radius: 8px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 2px 8px rgba(220, 38, 38, 0.35);
+      transition: transform 0.12s, box-shadow 0.12s;
+      white-space: nowrap;
+    }
+    .watch-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(220, 38, 38, 0.55);
+    }
+    .load-more-btn {
+      margin: 18px auto 8px;
+      display: block;
+      background: #1e293b;
+      border: 1px solid #3b82f6;
+      color: #fff;
+      font-weight: 700;
+      font-size: 13.5px;
+      padding: 10px 24px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .load-more-btn:hover {
+      background: var(--accent-blue);
+    }
+    .empty-state {
+      text-align: center;
+      padding: 48px 20px;
+      color: var(--text-secondary);
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="top-header">
+    <div class="header-inner">
+      <div class="brand-wrap" id="brandResetBtn" title="Click to view full archive">
+        <div class="brand-icon">▶</div>
+        <div>
+          <div class="brand-title">MASHIROMAI STREAM ARCHIVE</div>
+          <div class="brand-sub">Complete Performer Catalog & Instant Video Directory</div>
+        </div>
+      </div>
+
+      <div class="stats-pills">
+        <div class="stat-pill">🎬 Total Videos: <strong id="statTotalVideos">...</strong></div>
+        <div class="stat-pill">💃 Performers: <strong id="statTotalPerformers">...</strong></div>
+        <div class="stat-pill">⏱ Total Runtime: <strong id="statTotalHours">...</strong></div>
+        <div class="stat-pill">🔄 Updated: <strong id="statUpdatedAt">...</strong></div>
+      </div>
+
+      <div class="forum-links">
+        <a class="forum-btn" href="https://nobodyhome.ws/thread-17945.html" target="_blank" rel="noopener">★ BG & Group Thread (#17945)</a>
+        <a class="forum-btn" href="https://nobodyhome.ws/thread-10138.html" target="_blank" rel="noopener">◈ Sharing Video Thread (#10138)</a>
+      </div>
+    </div>
+  </header>
+
+  <div class="layout-container">
+    <!-- Left Sidebar: Performer Directory -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-title-row">
+          <span class="sidebar-title">Performers (<span id="perfCountLabel">0</span>)</span>
+          <div class="sidebar-sort-btns">
+            <button class="mini-tab active" id="sortPerfCountBtn">Top Count</button>
+            <button class="mini-tab" id="sortPerfAzBtn">A–Z</button>
+          </div>
+        </div>
+        <input type="text" class="perf-search" id="perfSearchInput" placeholder="Filter performer list..." />
+      </div>
+      <div class="perf-list" id="perfListContainer"></div>
+    </aside>
+
+    <!-- Right Main Content -->
+    <main>
+      <!-- Performer Spotlight Banner -->
+      <div class="spotlight-banner" id="spotlightBanner">
+        <div class="spotlight-top">
+          <div>
+            <div class="spotlight-label">◈ PERFORMER ARCHIVE SPOTLIGHT ◈</div>
+            <div class="spotlight-name" id="spotlightName"></div>
+            <div class="spotlight-meta" id="spotlightMeta"></div>
+          </div>
+          <button class="clear-perf-btn" id="clearPerfBtn">← Browse All Videos & Performers</button>
+        </div>
+        <div class="co-perf-row" id="coPerfRow" style="display:none;"></div>
+      </div>
+
+      <!-- Search & Filter Bar -->
+      <div class="controls-card">
+        <div class="controls-row">
+          <div class="search-box-wrap">
+            <input type="text" class="main-search" id="mainSearchInput" placeholder="Search by performer name, alias, date (e.g. 2026-10), or keyword..." />
+          </div>
+          <div class="filter-pills">
+            <button class="filter-btn active" data-thread="all">All Videos</button>
+            <button class="filter-btn" data-thread="primary">BG & Group (#17945)</button>
+            <button class="filter-btn" data-thread="secondary">Solo / Non-BG (#10138)</button>
+          </div>
+          <select class="sort-select" id="sortSelect">
+            <option value="uploaded_desc">Sort: Newest Uploaded</option>
+            <option value="date_desc">Sort: Recording Date (Newest)</option>
+            <option value="duration_desc">Sort: Longest Runtime</option>
+            <option value="duration_asc">Sort: Shortest Runtime</option>
+            <option value="title_asc">Sort: Title (A → Z)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="results-bar">
+        <span id="resultsSummaryText">Loading catalog...</span>
+        <span id="activeFilterHint"></span>
+      </div>
+
+      <div class="video-list" id="videoListContainer"></div>
+      <button class="load-more-btn" id="loadMoreBtn" style="display:none;">Show More Videos</button>
+    </main>
+  </div>
+
+  <script>
+    (function() {
+      const XOR_KEY = 'MASHIRO_VAULT_2026';
+      let allItems = [];
+      let performerMap = {}; // perfKey -> { count, totalSec, items, coPerformers: Set }
+      let selectedPerformer = '';
+      let selectedThread = 'all';
+      let searchQuery = '';
+      let sortBy = 'uploaded_desc';
+      let perfSortMode = 'count'; // 'count' | 'az'
+      let perfSearchQuery = '';
+      let visibleLimit = 100;
+
+      function decodeCatalogPayload(rawText) {
+        const clean = rawText.trim().replace(/^MV1:/, '');
+        const binStr = atob(clean);
+        const bytes = new Uint8Array(binStr.length);
+        for (let i = 0; i < binStr.length; i++) {
+          bytes[i] = binStr.charCodeAt(i) ^ XOR_KEY.charCodeAt(i % XOR_KEY.length);
+        }
+        const jsonStr = new TextDecoder('utf-8').decode(bytes);
+        return JSON.parse(jsonStr);
+      }
+
+      function parseHashParams() {
+        const h = (window.location.hash || '').replace(/^#/, '');
+        if (!h) return {};
+        const out = {};
+        h.split('&').forEach(pair => {
+          const idx = pair.indexOf('=');
+          if (idx > 0) {
+            out[decodeURIComponent(pair.slice(0, idx))] = decodeURIComponent(pair.slice(idx + 1));
+          }
+        });
+        return out;
+      }
+
+      function normalizeLookupKey(s) {
+        if (!s) return '';
+        return String(s).toLowerCase().trim()
+          .replace(/^@+/, '')
+          .replace(/^(?:copy\s+of\s+)?(?:void|vod|vo)[\s_-]+/i, '')
+          .replace(/[\s-]+/g, '_')
+          .replace(/_+/g, '_')
+          .replace(/^_+|_+$/g, '');
+      }
+
+      function fmtTotalHours(sec) {
+        if (!sec || sec <= 0) return '0h';
+        const hrs = (sec / 3600).toFixed(1);
+        return hrs + ' hrs';
+      }
+
+      function escapeHtml(s) {
+        return String(s || '')
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;');
+      }
+
+      async function loadCatalog() {
+        const cacheBust = Math.floor(Date.now() / 15000);
+        const urls = [
+          'https://raw.githubusercontent.com/mashiromaiforum/catalog/main/catalog.dat?v=' + cacheBust,
+          './catalog.dat?v=' + cacheBust
+        ];
+        let payload = null;
+        for (const u of urls) {
+          try {
+            const res = await fetch(u, { cache: 'no-store' });
+            if (res.ok) {
+              const txt = await res.text();
+              payload = decodeCatalogPayload(txt);
+              if (payload && Array.isArray(payload.items)) break;
+            }
+          } catch (e) {}
+        }
+        if (!payload || !Array.isArray(payload.items)) {
+          document.getElementById('resultsSummaryText').textContent = 'Failed to load catalog data. Please refresh.';
+          return;
+        }
+
+        allItems = payload.items;
+        buildPerformerIndex();
+
+        // Stats header
+        document.getElementById('statTotalVideos').textContent = allItems.length.toLocaleString();
+        const perfKeys = Object.keys(performerMap);
+        document.getElementById('statTotalPerformers').textContent = perfKeys.length.toLocaleString();
+        const totalSec = allItems.reduce((acc, it) => acc + (Number(it.durSec) || 0), 0);
+        document.getElementById('statTotalHours').textContent = fmtTotalHours(totalSec);
+        if (payload.updatedAt) {
+          const d = new Date(payload.updatedAt);
+          document.getElementById('statUpdatedAt').textContent = d.toISOString().slice(0, 10);
+        }
+
+        applyUrlHashSelection();
+        renderPerformerSidebar();
+        renderMainView();
+      }
+
+      function buildPerformerIndex() {
+        performerMap = {};
+        for (const item of allItems) {
+          const perfs = Array.isArray(item.performers) && item.performers.length
+            ? item.performers
+            : (item.primary ? [item.primary] : ['unknown']);
+          for (const p of perfs) {
+            if (!p || p === 'unknown') continue;
+            if (!performerMap[p]) {
+              performerMap[p] = { key: p, count: 0, totalSec: 0, coPerformers: new Set() };
+            }
+            performerMap[p].count++;
+            performerMap[p].totalSec += (Number(item.durSec) || 0);
+            for (const other of perfs) {
+              if (other && other !== p && other !== 'unknown') {
+                performerMap[p].coPerformers.add(other);
+              }
+            }
+          }
+        }
+      }
+
+      function findMatchingPerformerKey(rawModel) {
+        const norm = normalizeLookupKey(rawModel);
+        if (!norm) return '';
+        if (performerMap[norm]) return norm;
+        const noTrailing = norm.replace(/_+$/, '');
+        if (performerMap[noTrailing]) return noTrailing;
+        // Fuzzy match
+        const keys = Object.keys(performerMap);
+        const exactNoUnderscore = keys.find(k => k.replace(/_/g, '') === norm.replace(/_/g, ''));
+        if (exactNoUnderscore) return exactNoUnderscore;
+        const partial = keys.find(k => k.includes(norm) || norm.includes(k));
+        return partial || norm;
+      }
+
+      function applyUrlHashSelection() {
+        const params = parseHashParams();
+        const rawM = params.model || params.m || '';
+        if (rawM) {
+          selectedPerformer = findMatchingPerformerKey(rawM);
+        } else {
+          selectedPerformer = '';
+        }
+      }
+
+      function selectPerformer(perfKey) {
+        selectedPerformer = perfKey || '';
+        visibleLimit = 100;
+        if (selectedPerformer) {
+          history.replaceState(null, '', '#model=' + encodeURIComponent(selectedPerformer));
+        } else {
+          history.replaceState(null, '', window.location.pathname);
+        }
+        renderPerformerSidebar();
+        renderMainView();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      function renderPerformerSidebar() {
+        const container = document.getElementById('perfListContainer');
+        let list = Object.values(performerMap);
+        document.getElementById('perfCountLabel').textContent = list.length;
+
+        if (perfSearchQuery) {
+          const q = perfSearchQuery.toLowerCase().trim();
+          list = list.filter(p => p.key.toLowerCase().includes(q));
+        }
+
+        if (perfSortMode === 'az') {
+          list.sort((a, b) => a.key.localeCompare(b.key));
+        } else {
+          list.sort((a, b) => (b.count - a.count) || a.key.localeCompare(b.key));
+        }
+
+        const html = [];
+        // "All Performers" item at top
+        html.push(
+          '<div class="perf-item ' + (!selectedPerformer ? 'active' : '') + '" data-perf="">' +
+            '<span class="perf-name">📚 All Performers</span>' +
+            '<span class="perf-count">' + allItems.length + '</span>' +
+          '</div>'
+        );
+
+        for (const p of list) {
+          const isAct = selectedPerformer === p.key;
+          html.push(
+            '<div class="perf-item ' + (isAct ? 'active' : '') + '" data-perf="' + escapeHtml(p.key) + '">' +
+              '<span class="perf-name">' + escapeHtml(p.key) + '</span>' +
+              '<span class="perf-count">' + p.count + '</span>' +
+            '</div>'
+          );
+        }
+        container.innerHTML = html.join('');
+      }
+
+      function renderMainView() {
+        // Spotlight banner
+        const banner = document.getElementById('spotlightBanner');
+        const coRow = document.getElementById('coPerfRow');
+        if (selectedPerformer) {
+          banner.classList.add('visible');
+          document.getElementById('spotlightName').textContent = selectedPerformer;
+          const pInfo = performerMap[selectedPerformer];
+          const vCount = pInfo ? pInfo.count : 0;
+          const hrs = pInfo ? fmtTotalHours(pInfo.totalSec) : '0h';
+          document.getElementById('spotlightMeta').textContent =
+            vCount + (vCount === 1 ? ' video available' : ' videos available') + ' · Total Runtime: ' + hrs;
+
+          if (pInfo && pInfo.coPerformers && pInfo.coPerformers.size > 0) {
+            const coArr = Array.from(pInfo.coPerformers);
+            coRow.style.display = 'flex';
+            coRow.innerHTML = '<span>Related Aliases / Co-Performers in Shows:</span> ' +
+              coArr.map(c => '<span class="alias-chip" data-perf="' + escapeHtml(c) + '">' + escapeHtml(c) + '</span>').join('');
+          } else {
+            coRow.style.display = 'none';
+          }
+        } else {
+          banner.classList.remove('visible');
+        }
+
+        // Filter items
+        let filtered = allItems.filter(it => {
+          if (selectedPerformer) {
+            const perfs = Array.isArray(it.performers) ? it.performers : [it.primary];
+            const matchPerf = perfs.includes(selectedPerformer) ||
+              (it.title && it.title.toLowerCase().includes(selectedPerformer));
+            if (!matchPerf) return false;
+          }
+          if (selectedThread === 'primary' && it.thread !== 'primary') return false;
+          if (selectedThread === 'secondary' && it.thread !== 'secondary') return false;
+
+          if (searchQuery) {
+            const q = searchQuery.toLowerCase().trim();
+            const hay = ((it.title || '') + ' ' + (it.performers || []).join(' ') + ' ' + (it.showDate || '')).toLowerCase();
+            if (!hay.includes(q)) return false;
+          }
+          return true;
+        });
+
+        // Sort items
+        filtered.sort((a, b) => {
+          if (sortBy === 'date_desc') {
+            return String(b.showDate || b.upDate || '').localeCompare(String(a.showDate || a.upDate || '')) || ((b.ts || 0) - (a.ts || 0));
+          }
+          if (sortBy === 'duration_desc') {
+            return (Number(b.durSec) || 0) - (Number(a.durSec) || 0);
+          }
+          if (sortBy === 'duration_asc') {
+            return (Number(a.durSec) || 999999) - (Number(b.durSec) || 999999);
+          }
+          if (sortBy === 'title_asc') {
+            return String(a.title || '').localeCompare(String(b.title || ''));
+          }
+          // Default: uploaded_desc
+          return ((b.ts || 0) - (a.ts || 0)) || String(b.upDate || '').localeCompare(String(a.upDate || ''));
+        });
+
+        document.getElementById('resultsSummaryText').textContent =
+          'Showing ' + Math.min(filtered.length, visibleLimit) + ' of ' + filtered.length + ' matching videos' +
+          (selectedPerformer ? (' for "' + selectedPerformer + '"') : '');
+
+        const listEl = document.getElementById('videoListContainer');
+        const loadMoreBtn = document.getElementById('loadMoreBtn');
+
+        if (filtered.length === 0) {
+          listEl.innerHTML = '<div class="empty-state">No videos matched your current filter. Try clearing the search or clicking "Browse All Videos".</div>';
+          loadMoreBtn.style.display = 'none';
+          return;
+        }
+
+        const slice = filtered.slice(0, visibleLimit);
+        const rowsHtml = slice.map((it, idx) => {
+          const numStr = String(idx + 1).padStart(2, '0') + '.';
+          let threadBadge = '<span class="tag-badge tag-archive">Classic Archive</span>';
+          if (it.thread === 'primary') threadBadge = '<span class="tag-badge tag-primary">BG & Group (#17945)</span>';
+          else if (it.thread === 'secondary') threadBadge = '<span class="tag-badge tag-secondary">Solo / Non-BG (#10138)</span>';
+
+          const perfs = Array.isArray(it.performers) && it.performers.length ? it.performers : (it.primary ? [it.primary] : []);
+          const perfPills = perfs.map(p =>
+            '<span class="perf-pill-mini" data-perf="' + escapeHtml(p) + '">👤 ' + escapeHtml(p) + '</span>'
+          ).join('');
+
+          const dateLabel = it.showDate
+            ? ('📅 Show: ' + escapeHtml(it.showDate))
+            : (it.upDate ? ('📅 Uploaded: ' + escapeHtml(it.upDate)) : '');
+
+          const durDisplay = it.dur && it.dur !== '--:--' ? ('⏱ ' + escapeHtml(it.dur)) : '⏱ --:--';
+
+          return (
+            '<div class="video-row">' +
+              '<div class="video-left">' +
+                '<div class="video-idx">' + numStr + '</div>' +
+                '<div class="video-info">' +
+                  '<div class="video-title">' + escapeHtml(it.title) + '</div>' +
+                  '<div class="video-sub">' +
+                    threadBadge +
+                    perfPills +
+                    (dateLabel ? ('<span>' + dateLabel + '</span>') : '') +
+                  '</div>' +
+                '</div>' +
+              '</div>' +
+              '<div class="video-actions">' +
+                '<div class="duration-badge">' + durDisplay + '</div>' +
+                '<a class="watch-btn" href="' + escapeHtml(it.url) + '" target="_blank" rel="noopener">▶ Watch Video</a>' +
+              '</div>' +
+            '</div>'
+          );
+        });
+
+        listEl.innerHTML = rowsHtml.join('');
+        if (filtered.length > visibleLimit) {
+          loadMoreBtn.style.display = 'block';
+          loadMoreBtn.textContent = 'Show More Videos (' + (filtered.length - visibleLimit) + ' remaining)';
+        } else {
+          loadMoreBtn.style.display = 'none';
+        }
+      }
+
+      // Event Listeners
+      document.getElementById('perfListContainer').addEventListener('click', e => {
+        const item = e.target.closest('.perf-item');
+        if (!item) return;
+        selectPerformer(item.getAttribute('data-perf') || '');
+      });
+
+      document.getElementById('videoListContainer').addEventListener('click', e => {
+        const pill = e.target.closest('.perf-pill-mini');
+        if (!pill) return;
+        selectPerformer(pill.getAttribute('data-perf') || '');
+      });
+
+      document.getElementById('coPerfRow').addEventListener('click', e => {
+        const chip = e.target.closest('.alias-chip');
+        if (!chip) return;
+        selectPerformer(chip.getAttribute('data-perf') || '');
+      });
+
+      document.getElementById('clearPerfBtn').addEventListener('click', () => selectPerformer(''));
+      document.getElementById('brandResetBtn').addEventListener('click', () => {
+        searchQuery = '';
+        document.getElementById('mainSearchInput').value = '';
+        selectPerformer('');
+      });
+
+      document.getElementById('mainSearchInput').addEventListener('input', e => {
+        searchQuery = e.target.value || '';
+        visibleLimit = 100;
+        renderMainView();
+      });
+
+      document.getElementById('perfSearchInput').addEventListener('input', e => {
+        perfSearchQuery = e.target.value || '';
+        renderPerformerSidebar();
+      });
+
+      document.getElementById('sortPerfCountBtn').addEventListener('click', () => {
+        perfSortMode = 'count';
+        document.getElementById('sortPerfCountBtn').classList.add('active');
+        document.getElementById('sortPerfAzBtn').classList.remove('active');
+        renderPerformerSidebar();
+      });
+
+      document.getElementById('sortPerfAzBtn').addEventListener('click', () => {
+        perfSortMode = 'az';
+        document.getElementById('sortPerfAzBtn').classList.add('active');
+        document.getElementById('sortPerfCountBtn').classList.remove('active');
+        renderPerformerSidebar();
+      });
+
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          selectedThread = btn.getAttribute('data-thread') || 'all';
+          visibleLimit = 100;
+          renderMainView();
+        });
+      });
+
+      document.getElementById('sortSelect').addEventListener('change', e => {
+        sortBy = e.target.value;
+        visibleLimit = 100;
+        renderMainView();
+      });
+
+      document.getElementById('loadMoreBtn').addEventListener('click', () => {
+        visibleLimit += 150;
+        renderMainView();
+      });
+
+      window.addEventListener('hashchange', () => {
+        applyUrlHashSelection();
+        renderPerformerSidebar();
+        renderMainView();
+      });
+
+      loadCatalog();
+    })();
+  </script>
+</body>
+</html>
