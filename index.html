@@ -355,6 +355,242 @@
       color: #fff;
     }
 
+    /* 4th Line in Support Modal: No-Crypto / Card Guide Prompt */
+    .no-crypto-prompt {
+      margin-top: 2px;
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.11) 0%, rgba(59, 130, 246, 0.11) 100%);
+      border: 1px dashed rgba(52, 211, 153, 0.5);
+      border-radius: 11px;
+      padding: 11px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .no-crypto-text {
+      flex: 1;
+      min-width: 220px;
+      font-size: 12.5px;
+      color: #e2e8f0;
+      line-height: 1.45;
+    }
+    .no-crypto-text strong {
+      color: #6ee7b7;
+    }
+    .no-crypto-sub {
+      display: block;
+      font-size: 11.5px;
+      color: var(--text-secondary);
+      margin-top: 2px;
+    }
+    .no-crypto-click-btn {
+      flex-shrink: 0;
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      border: 1px solid #34d399;
+      color: #052e16;
+      font-size: 12.5px;
+      font-weight: 800;
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 0 3px 12px rgba(16, 185, 129, 0.3);
+      transition: transform 0.15s ease, filter 0.15s ease;
+    }
+    .no-crypto-click-btn:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.08);
+    }
+
+    /* Fiat / Changelly 2-Step Guide Modal */
+    .fiat-guide-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(3, 5, 10, 0.88);
+      backdrop-filter: blur(8px);
+      z-index: 1210;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+    .fiat-guide-backdrop.visible {
+      display: flex;
+    }
+    .fiat-guide-modal {
+      width: 100%;
+      max-width: 680px;
+      max-height: calc(100vh - 28px);
+      display: flex;
+      flex-direction: column;
+      background: linear-gradient(180deg, #161f2e 0%, #0f141f 100%);
+      border: 1px solid rgba(52, 211, 153, 0.55);
+      border-radius: 16px;
+      box-shadow: 0 28px 68px rgba(0, 0, 0, 0.9), 0 0 36px rgba(16, 185, 129, 0.16);
+      overflow: hidden;
+      animation: supportModalIn 0.18s ease-out;
+    }
+    .fiat-guide-header {
+      flex-shrink: 0;
+      padding: 14px 18px;
+      background: linear-gradient(90deg, rgba(16, 185, 129, 0.18) 0%, rgba(59, 130, 246, 0.08) 100%);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .fiat-guide-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .fiat-guide-body {
+      padding: 15px 18px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .fiat-badges-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+    }
+    .fiat-pill {
+      font-size: 11.5px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 99px;
+      background: rgba(16, 185, 129, 0.14);
+      border: 1px solid rgba(52, 211, 153, 0.4);
+      color: #6ee7b7;
+    }
+    .fiat-step-card {
+      background: #0b0e14;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .fiat-step-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .fiat-step-title {
+      font-size: 13.5px;
+      font-weight: 800;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .fiat-step-num {
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: #052e16;
+      font-size: 11px;
+      font-weight: 900;
+      padding: 2px 8px;
+      border-radius: 99px;
+      font-family: Consolas, monospace;
+    }
+    .fiat-step-desc {
+      font-size: 12.5px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+    .fiat-step-desc strong {
+      color: #f1f5f9;
+    }
+    .fiat-addr-list {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      margin-top: 2px;
+    }
+    .fiat-addr-item {
+      background: #111622;
+      border: 1px solid #1e293b;
+      border-radius: 8px;
+      padding: 7px 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .fiat-addr-item.default-ltc {
+      border-color: rgba(59, 130, 246, 0.55);
+      background: rgba(59, 130, 246, 0.08);
+    }
+    .fiat-coin-tag {
+      flex-shrink: 0;
+      font-size: 11.5px;
+      font-weight: 800;
+      min-width: 128px;
+      color: #e2e8f0;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .fiat-default-pill {
+      font-size: 9.5px;
+      font-weight: 800;
+      padding: 1px 5px;
+      border-radius: 4px;
+      background: #3b82f6;
+      color: #fff;
+      text-transform: uppercase;
+    }
+    .fiat-guide-footer {
+      flex-shrink: 0;
+      padding: 11px 18px 14px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .fiat-open-site-btn {
+      flex: 1.4;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      border: 1px solid #34d399;
+      color: #052e16;
+      font-size: 13px;
+      font-weight: 800;
+      padding: 10px 16px;
+      border-radius: 9px;
+      box-shadow: 0 4px 16px rgba(16, 185, 129, 0.32);
+      transition: transform 0.15s ease, filter 0.15s ease;
+      text-align: center;
+    }
+    .fiat-open-site-btn:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.07);
+    }
+    @media (max-width: 560px) {
+      .fiat-addr-item {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .fiat-guide-footer {
+        flex-direction: column-reverse;
+        align-items: stretch;
+      }
+    }
+
     /* QR Code Viewer */
     .qr-viewer-backdrop {
       position: fixed;
@@ -1344,6 +1580,15 @@
             </div>
           </div>
         </div>
+
+        <!-- 4th Line: Support without a Crypto Wallet / Card Payment Guide -->
+        <div class="no-crypto-prompt">
+          <div class="no-crypto-text">
+            💳 <strong>Still want to support me, but don't have or know how to use crypto?</strong>
+            <span class="no-crypto-sub">No crypto wallet or account needed · 2 simple steps · Takes ~30 seconds with local currency / card</span>
+          </div>
+          <button type="button" class="no-crypto-click-btn" id="openFiatGuideBtn">Click Here →</button>
+        </div>
       </div>
     </div>
   </div>
@@ -1372,6 +1617,76 @@
       </div>
       <div class="qr-viewer-footer">
         <button type="button" class="qr-back-btn" id="qrViewerBackBtn">← Back to All Wallets</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2-Step Card / Local Currency Support Guide Popup (Changelly) -->
+  <div class="fiat-guide-backdrop" id="fiatGuideBackdrop" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="fiat-guide-modal">
+      <div class="fiat-guide-header">
+        <div class="fiat-guide-title">💳 Support Without a Crypto Wallet (2 Easy Steps)</div>
+        <button type="button" class="support-modal-close" id="closeFiatGuideBtn" title="Close">✕</button>
+      </div>
+      <div class="fiat-guide-body">
+        <div class="fiat-badges-row">
+          <span class="fiat-pill">⚡ ~30 Seconds · 2 Steps</span>
+          <span class="fiat-pill">🔓 No Account or Wallet Needed</span>
+          <span class="fiat-pill">🌍 Auto-Detects Local Currency (Card)</span>
+        </div>
+
+        <!-- Step 1 -->
+        <div class="fiat-step-card">
+          <div class="fiat-step-head">
+            <div class="fiat-step-title">
+              <span class="fiat-step-num">STEP 1 / 2</span>
+              Open Changelly &amp; Enter Your Amount
+            </div>
+            <a href="https://changelly.com/buy/ltc" target="_blank" rel="noopener" class="no-crypto-click-btn" style="text-decoration:none;padding:5px 11px;font-size:11.5px;">🌐 Open Changelly ↗</a>
+          </div>
+          <div class="fiat-step-desc">
+            Click <strong>Open Changelly</strong> (<a href="https://changelly.com/buy/ltc" target="_blank" rel="noopener" style="color:#6ee7b7;font-weight:700;text-decoration:underline;">changelly.com/buy/ltc ↗</a>). It automatically detects your <strong>local currency</strong> (USD, EUR, GBP, etc.) from your location — just type the amount you want to send.<br />
+            <strong>Litecoin (LTC)</strong> is already selected by default <em>(recommended — lowest fee)</em>, or you can change it to <strong>BTC</strong> or <strong>USDT (Tron)</strong> if you prefer, then click <strong>Next step</strong>.
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="fiat-step-card">
+          <div class="fiat-step-head">
+            <div class="fiat-step-title">
+              <span class="fiat-step-num">STEP 2 / 2</span>
+              Paste My Destination Address &amp; Pay
+            </div>
+          </div>
+          <div class="fiat-step-desc">
+            On the next screen (<strong>"2/3 Enter address"</strong>), it asks for <strong>Destination address</strong>. Simply click <strong>Copy</strong> on my wallet address below (matching the coin you selected) and paste it there — then click <strong>Next step</strong> to go straight to the card payment gateway!
+          </div>
+
+          <div class="fiat-addr-list">
+            <!-- Default LTC -->
+            <div class="fiat-addr-item default-ltc">
+              <div class="fiat-coin-tag">🔵 LTC <span class="fiat-default-pill">Default</span></div>
+              <div class="crypto-addr-box">ltc1qqezwuntk5h7g3vcdd2f6k02uzzask2uv8afr85</div>
+              <button type="button" class="crypto-copy-btn" data-copy-addr="ltc1qqezwuntk5h7g3vcdd2f6k02uzzask2uv8afr85">📋 Copy LTC</button>
+            </div>
+            <!-- Optional BTC -->
+            <div class="fiat-addr-item">
+              <div class="fiat-coin-tag">🟠 Bitcoin (BTC)</div>
+              <div class="crypto-addr-box">bc1qp6yhnql9y3cj2wcfhjwvssaelh3jlw3v8rcjup</div>
+              <button type="button" class="crypto-copy-btn" data-copy-addr="bc1qp6yhnql9y3cj2wcfhjwvssaelh3jlw3v8rcjup">📋 Copy BTC</button>
+            </div>
+            <!-- Optional USDT (Tron) -->
+            <div class="fiat-addr-item">
+              <div class="fiat-coin-tag">🟢 USDT (Tron)</div>
+              <div class="crypto-addr-box">TDZjhNPR7n6jyRPrLcUiZcMeGemDYs6Yfj</div>
+              <button type="button" class="crypto-copy-btn" data-copy-addr="TDZjhNPR7n6jyRPrLcUiZcMeGemDYs6Yfj">📋 Copy USDT</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="fiat-guide-footer">
+        <button type="button" class="qr-back-btn" id="fiatGuideBackBtn" style="flex:0.8;">← Back to Wallets</button>
+        <a class="fiat-open-site-btn" href="https://changelly.com/buy/ltc" target="_blank" rel="noopener">🌐 Open Changelly (changelly.com/buy/ltc) ↗</a>
       </div>
     </div>
   </div>
@@ -2058,8 +2373,35 @@
           if (e.target === supportBackdrop) closeSupportModal();
         });
       }
+      // 2-Step Card / Local Currency Guide Modal (Changelly)
+      const fiatGuideBackdrop = document.getElementById('fiatGuideBackdrop');
+      const openFiatGuideBtn = document.getElementById('openFiatGuideBtn');
+      const closeFiatGuideBtn = document.getElementById('closeFiatGuideBtn');
+      const fiatGuideBackBtn = document.getElementById('fiatGuideBackBtn');
+
+      function openFiatGuide() {
+        fiatGuideBackdrop.classList.add('visible');
+        fiatGuideBackdrop.setAttribute('aria-hidden', 'false');
+      }
+      function closeFiatGuide() {
+        fiatGuideBackdrop.classList.remove('visible');
+        fiatGuideBackdrop.setAttribute('aria-hidden', 'true');
+      }
+      if (openFiatGuideBtn) openFiatGuideBtn.addEventListener('click', openFiatGuide);
+      if (closeFiatGuideBtn) closeFiatGuideBtn.addEventListener('click', closeFiatGuide);
+      if (fiatGuideBackBtn) fiatGuideBackBtn.addEventListener('click', closeFiatGuide);
+      if (fiatGuideBackdrop) {
+        fiatGuideBackdrop.addEventListener('click', e => {
+          if (e.target === fiatGuideBackdrop) closeFiatGuide();
+        });
+      }
+
       window.addEventListener('keydown', e => {
         if (e.key !== 'Escape') return;
+        if (fiatGuideBackdrop && fiatGuideBackdrop.classList.contains('visible')) {
+          closeFiatGuide();
+          return;
+        }
         const qrBd = document.getElementById('qrViewerBackdrop');
         if (qrBd && qrBd.classList.contains('visible')) {
           closeQrViewer();
