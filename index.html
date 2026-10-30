@@ -119,20 +119,31 @@
       border-color: var(--accent-gold);
       color: var(--accent-gold);
     }
+    .header-support-row {
+      max-width: 1440px;
+      margin: 12px auto 0;
+      padding-top: 11px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
     .support-me-btn {
       display: inline-flex;
       align-items: center;
-      gap: 7px;
-      font-size: 13.5px;
+      justify-content: center;
+      gap: 9px;
+      min-width: 260px;
+      font-size: 14px;
       font-weight: 800;
-      letter-spacing: 0.2px;
-      padding: 8px 16px;
-      border-radius: 9px;
+      letter-spacing: 0.4px;
+      padding: 9px 42px;
+      border-radius: 10px;
       border: 1px solid #fbbf24;
       background: linear-gradient(135deg, #f5a623 0%, #d97706 100%);
       color: #0b0e14;
       cursor: pointer;
-      box-shadow: 0 4px 16px rgba(245, 166, 35, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+      box-shadow: 0 4px 18px rgba(245, 166, 35, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.38);
       transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
     }
     .support-me-btn:hover {
@@ -973,11 +984,13 @@
         <div class="stat-pill">🔄 Updated: <strong id="statUpdatedAt">...</strong></div>
       </div>
 
-      <div class="forum-links" style="align-items: center;">
-        <button type="button" class="support-me-btn" id="openSupportModalBtn">💛 Support Me</button>
+      <div class="forum-links">
         <a class="forum-btn" href="https://nobodyhome.ws/thread-17945.html" target="_blank" rel="noopener">★ BG & Group Thread (#17945)</a>
         <a class="forum-btn" href="https://nobodyhome.ws/thread-10138.html" target="_blank" rel="noopener">◈ Sharing Video Thread (#10138)</a>
       </div>
+    </div>
+    <div class="header-support-row">
+      <button type="button" class="support-me-btn" id="openSupportModalBtn">💛 Support Me</button>
     </div>
   </header>
 
