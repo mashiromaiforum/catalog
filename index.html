@@ -174,7 +174,9 @@
     }
     .support-modal {
       width: 100%;
-      max-width: 540px;
+      max-width: 680px;
+      max-height: calc(100vh - 32px);
+      overflow-y: auto;
       background: linear-gradient(180deg, #161d2b 0%, #101520 100%);
       border: 1px solid rgba(245, 166, 35, 0.5);
       border-radius: 16px;
@@ -288,15 +290,21 @@
     }
     .crypto-addr-box {
       flex: 1;
+      min-width: 0;
       background: #131824;
       border: 1px solid #1e293b;
       border-radius: 7px;
       padding: 8px 10px;
       font-family: Consolas, monospace;
-      font-size: 12px;
+      font-size: 12.5px;
       color: #e2e8f0;
-      word-break: break-all;
+      white-space: nowrap;
+      overflow-x: auto;
+      scrollbar-width: none;
       user-select: all;
+    }
+    .crypto-addr-box::-webkit-scrollbar {
+      display: none;
     }
     .crypto-copy-btn {
       flex-shrink: 0;
@@ -363,8 +371,9 @@
       display: flex;
     }
     .qr-viewer {
-      width: 100%;
-      max-width: 440px;
+      /* Width is set by JS from the QR image's real aspect ratio so the card wraps the image exactly */
+      width: 480px;
+      max-width: calc(100vw - 32px);
       max-height: calc(100vh - 32px);
       display: flex;
       flex-direction: column;
@@ -376,7 +385,8 @@
       animation: supportModalIn 0.2s ease-out;
     }
     .qr-viewer-header {
-      padding: 14px 18px;
+      flex-shrink: 0;
+      padding: 11px 16px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -386,49 +396,55 @@
     }
     .qr-viewer-title {
       display: flex;
-      flex-direction: column;
-      gap: 2px;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
     }
     .qr-viewer-coin {
-      font-size: 16px;
+      font-size: 15.5px;
       font-weight: 800;
       color: #fff;
     }
     .qr-viewer-net {
-      font-size: 11.5px;
+      font-size: 11px;
       font-weight: 700;
       font-family: Consolas, monospace;
       color: var(--qr-text, #fbbf24);
-      letter-spacing: 0.3px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--qr-accent, rgba(245, 166, 35, 0.4));
+      padding: 2px 8px;
+      border-radius: 99px;
+      letter-spacing: 0.2px;
     }
     .qr-viewer-body {
-      padding: 18px;
+      padding: 14px 16px;
       overflow-y: auto;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 14px;
+      gap: 10px;
     }
     .qr-image-frame {
-      width: 100%;
+      /* Never shrink: frame is sized to the exact aspect ratio of each QR image */
+      flex: 0 0 auto;
+      width: var(--qr-img-w, 340px);
+      height: var(--qr-img-h, 444px);
       background: #fff;
       border-radius: 14px;
-      padding: 10px;
-      box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.06), 0 10px 30px rgba(0, 0, 0, 0.55);
+      overflow: hidden;
+      box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.08), 0 12px 32px rgba(0, 0, 0, 0.6);
       display: flex;
       align-items: center;
       justify-content: center;
-      min-height: 260px;
       position: relative;
     }
     .qr-image-frame img {
       width: 100%;
-      max-height: 62vh;
+      height: 100%;
       object-fit: contain;
       display: block;
-      border-radius: 8px;
       opacity: 0;
-      transition: opacity 0.2s ease;
+      transition: opacity 0.15s ease;
     }
     .qr-image-frame img.loaded {
       opacity: 1;
@@ -438,34 +454,46 @@
       color: #64748b;
       font-size: 13px;
       font-weight: 600;
+      padding: 0 16px;
+      text-align: center;
     }
     .qr-scan-hint {
-      font-size: 12.5px;
+      flex-shrink: 0;
+      font-size: 12px;
       color: var(--text-secondary);
       text-align: center;
     }
     .qr-addr-row {
+      flex-shrink: 0;
       width: 100%;
       display: flex;
-      gap: 8px;
+      gap: 7px;
       align-items: center;
     }
     .qr-addr-row .crypto-addr-box {
-      font-size: 12.5px;
+      font-size: 11.5px;
+      padding: 8px 9px;
       text-align: center;
     }
+    .qr-addr-row .crypto-copy-btn {
+      min-width: 84px;
+      padding: 8px 11px;
+    }
     .qr-warning {
+      flex-shrink: 0;
       width: 100%;
-      font-size: 12px;
+      font-size: 11.5px;
       color: #fcd34d;
       background: rgba(245, 158, 11, 0.1);
       border: 1px solid rgba(245, 158, 11, 0.35);
-      border-radius: 9px;
-      padding: 9px 12px;
-      line-height: 1.45;
+      border-radius: 8px;
+      padding: 7px 11px;
+      line-height: 1.4;
+      text-align: center;
     }
     .qr-viewer-footer {
-      padding: 12px 18px 16px;
+      flex-shrink: 0;
+      padding: 10px 16px 13px;
       display: flex;
       gap: 8px;
       border-top: 1px solid var(--border);
@@ -506,6 +534,11 @@
       }
       .crypto-copy-btn {
         width: 100%;
+      }
+      /* Very narrow phones: allow long addresses to wrap instead of scrolling */
+      .crypto-addr-box {
+        white-space: normal;
+        word-break: break-all;
       }
     }
 
@@ -2044,6 +2077,7 @@
           net: 'BTC · Bitcoin Network',
           addr: 'bc1qp6yhnql9y3cj2wcfhjwvssaelh3jlw3v8rcjup',
           img: 'https://i.postimg.cc/v87pCByK/IMG-0069.jpg',
+          imgW: 612, imgH: 800,
           warning: '⚠️ Only send <strong>Bitcoin (BTC)</strong> on the Bitcoin network to this address. Other coins or networks will be lost forever.',
           accent: 'rgba(247, 147, 26, 0.6)',
           glow: 'rgba(247, 147, 26, 0.18)',
@@ -2054,6 +2088,7 @@
           net: 'TRC-20 · Tron Network',
           addr: 'TDZjhNPR7n6jyRPrLcUiZcMeGemDYs6Yfj',
           img: 'https://i.postimg.cc/mZ30KD45/IMG-0070.jpg',
+          imgW: 615, imgH: 800,
           warning: '⚠️ Only send <strong>USDT on TRC-20 (Tron)</strong> to this address. Do NOT send ERC-20 / BEP-20 USDT — it will be lost forever.',
           accent: 'rgba(16, 185, 129, 0.6)',
           glow: 'rgba(16, 185, 129, 0.18)',
@@ -2064,6 +2099,7 @@
           net: 'LTC · Litecoin Network',
           addr: 'ltc1qqezwuntk5h7g3vcdd2f6k02uzzask2uv8afr85',
           img: 'https://i.postimg.cc/7P1pj64t/IMG-0068.jpg',
+          imgW: 608, imgH: 800,
           warning: '⚠️ Only send <strong>Litecoin (LTC)</strong> on the Litecoin network to this address. Other coins or networks will be lost forever.',
           accent: 'rgba(59, 130, 246, 0.6)',
           glow: 'rgba(59, 130, 246, 0.18)',
@@ -2079,6 +2115,42 @@
       const qrImg = document.getElementById('qrViewerImg');
       const qrLoading = document.getElementById('qrLoadingText');
       const qrCopyBtn = document.getElementById('qrViewerCopyBtn');
+      const qrFrame = qrCard.querySelector('.qr-image-frame');
+      const qrHeader = qrCard.querySelector('.qr-viewer-header');
+      const qrBody = qrCard.querySelector('.qr-viewer-body');
+      const qrFooter = qrCard.querySelector('.qr-viewer-footer');
+      let qrCurrentRatio = 0.765;
+
+      // Size the card + image frame from the image's real aspect ratio so the whole QR image
+      // always fits inside the card (no overlap / spill), as large as the screen allows.
+      function fitQrLayout(ratio) {
+        if (ratio && isFinite(ratio) && ratio > 0) qrCurrentRatio = ratio;
+        const r = qrCurrentRatio;
+        const vw = Math.max(280, Math.min(window.innerWidth, document.documentElement.clientWidth || window.innerWidth) - 24);
+        const vh = Math.max(420, Math.min(window.innerHeight, document.documentElement.clientHeight || window.innerHeight) - 24);
+        const BODY_PAD_X = 32;              // .qr-viewer-body left + right padding (16px + 16px)
+        const MAX_IMG_H = 560;              // large, crystal-clear QR height
+        const MIN_IMG_H = 220;
+        const minCardW = Math.min(vw, 436); // fits 43-char LTC/BTC address on one single line + Copy button
+
+        let imgH = MAX_IMG_H;
+        for (let pass = 0; pass < 3; pass++) {
+          let imgW = imgH * r;
+          const cardW = Math.min(vw, Math.max(minCardW, Math.round(imgW + BODY_PAD_X)));
+          imgW = Math.min(imgW, cardW - BODY_PAD_X);
+          imgH = imgW / r;
+          qrCard.style.width = cardW + 'px';
+          qrCard.style.setProperty('--qr-img-w', Math.round(imgW) + 'px');
+          qrCard.style.setProperty('--qr-img-h', Math.round(imgH) + 'px');
+
+          // Measure everything except the image, then give the image whatever height is left
+          const chrome = qrHeader.offsetHeight + qrFooter.offsetHeight + (qrBody.scrollHeight - qrFrame.offsetHeight) + 2;
+          const availH = vh - chrome;
+          const nextH = Math.max(MIN_IMG_H, Math.min(MAX_IMG_H, availH, (cardW - BODY_PAD_X) / r));
+          if (Math.abs(nextH - imgH) < 1) break;
+          imgH = nextH;
+        }
+      }
 
       function openQrViewer(coinKey) {
         const d = CRYPTO_QR_DATA[coinKey];
@@ -2097,14 +2169,26 @@
         qrImg.classList.remove('loaded');
         qrLoading.textContent = 'Loading QR code...';
         qrLoading.style.display = 'block';
-        qrImg.onload = () => { qrImg.classList.add('loaded'); qrLoading.style.display = 'none'; };
+        qrImg.onload = () => {
+          // Re-fit using the image's true pixel aspect ratio once it has loaded
+          if (qrImg.naturalWidth && qrImg.naturalHeight) fitQrLayout(qrImg.naturalWidth / qrImg.naturalHeight);
+          qrImg.classList.add('loaded');
+          qrLoading.style.display = 'none';
+        };
         qrImg.onerror = () => { qrLoading.textContent = '⚠️ QR image failed to load — please use the Copy button.'; };
         qrImg.alt = d.coin + ' wallet QR code';
-        qrImg.src = d.img;
 
         qrBackdrop.classList.add('visible');
         qrBackdrop.setAttribute('aria-hidden', 'false');
+        // Fit immediately with the known ratio (no layout jump), then load the image
+        fitQrLayout(d.imgW / d.imgH);
+        qrImg.src = d.img;
+        // Already cached/decoded (e.g. reopening the same coin) → onload may not fire again
+        if (qrImg.complete && qrImg.naturalWidth) qrImg.onload();
       }
+      window.addEventListener('resize', () => {
+        if (qrBackdrop.classList.contains('visible')) fitQrLayout();
+      });
       function closeQrViewer() {
         qrBackdrop.classList.remove('visible');
         qrBackdrop.setAttribute('aria-hidden', 'true');
