@@ -322,6 +322,183 @@
       border-color: var(--accent-green);
       color: #052e16;
     }
+    .crypto-actions {
+      display: flex;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+    .crypto-qr-btn {
+      flex-shrink: 0;
+      background: rgba(59, 130, 246, 0.14);
+      border: 1px solid rgba(59, 130, 246, 0.45);
+      color: #bfdbfe;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 8px 13px;
+      border-radius: 7px;
+      cursor: pointer;
+      transition: all 0.15s;
+      min-width: 86px;
+      text-align: center;
+    }
+    .crypto-qr-btn:hover {
+      background: var(--accent-blue);
+      border-color: var(--accent-blue);
+      color: #fff;
+    }
+
+    /* QR Code Viewer */
+    .qr-viewer-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(3, 5, 10, 0.88);
+      backdrop-filter: blur(8px);
+      z-index: 1200;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+    .qr-viewer-backdrop.visible {
+      display: flex;
+    }
+    .qr-viewer {
+      width: 100%;
+      max-width: 440px;
+      max-height: calc(100vh - 32px);
+      display: flex;
+      flex-direction: column;
+      background: linear-gradient(180deg, #171f2e 0%, #0f141e 100%);
+      border: 1px solid var(--qr-accent, rgba(245, 166, 35, 0.55));
+      border-radius: 18px;
+      box-shadow: 0 30px 70px rgba(0, 0, 0, 0.9), 0 0 40px var(--qr-glow, rgba(245, 166, 35, 0.18));
+      overflow: hidden;
+      animation: supportModalIn 0.2s ease-out;
+    }
+    .qr-viewer-header {
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      border-bottom: 1px solid var(--border);
+      background: linear-gradient(90deg, var(--qr-glow, rgba(245, 166, 35, 0.16)) 0%, transparent 100%);
+    }
+    .qr-viewer-title {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .qr-viewer-coin {
+      font-size: 16px;
+      font-weight: 800;
+      color: #fff;
+    }
+    .qr-viewer-net {
+      font-size: 11.5px;
+      font-weight: 700;
+      font-family: Consolas, monospace;
+      color: var(--qr-text, #fbbf24);
+      letter-spacing: 0.3px;
+    }
+    .qr-viewer-body {
+      padding: 18px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+    }
+    .qr-image-frame {
+      width: 100%;
+      background: #fff;
+      border-radius: 14px;
+      padding: 10px;
+      box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.06), 0 10px 30px rgba(0, 0, 0, 0.55);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 260px;
+      position: relative;
+    }
+    .qr-image-frame img {
+      width: 100%;
+      max-height: 62vh;
+      object-fit: contain;
+      display: block;
+      border-radius: 8px;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+    .qr-image-frame img.loaded {
+      opacity: 1;
+    }
+    .qr-loading {
+      position: absolute;
+      color: #64748b;
+      font-size: 13px;
+      font-weight: 600;
+    }
+    .qr-scan-hint {
+      font-size: 12.5px;
+      color: var(--text-secondary);
+      text-align: center;
+    }
+    .qr-addr-row {
+      width: 100%;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .qr-addr-row .crypto-addr-box {
+      font-size: 12.5px;
+      text-align: center;
+    }
+    .qr-warning {
+      width: 100%;
+      font-size: 12px;
+      color: #fcd34d;
+      background: rgba(245, 158, 11, 0.1);
+      border: 1px solid rgba(245, 158, 11, 0.35);
+      border-radius: 9px;
+      padding: 9px 12px;
+      line-height: 1.45;
+    }
+    .qr-viewer-footer {
+      padding: 12px 18px 16px;
+      display: flex;
+      gap: 8px;
+      border-top: 1px solid var(--border);
+    }
+    .qr-back-btn {
+      flex: 1;
+      background: #1e293b;
+      border: 1px solid #334155;
+      color: #f8fafc;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 10px 14px;
+      border-radius: 9px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .qr-back-btn:hover {
+      border-color: var(--accent-gold);
+      color: var(--accent-gold);
+    }
+    @media (max-width: 520px) {
+      .crypto-actions {
+        width: 100%;
+      }
+      .crypto-actions .crypto-copy-btn,
+      .crypto-actions .crypto-qr-btn {
+        flex: 1;
+      }
+      .qr-addr-row {
+        flex-direction: column;
+        align-items: stretch;
+      }
+    }
     @media (max-width: 520px) {
       .crypto-addr-row {
         flex-direction: column;
@@ -1087,7 +1264,7 @@
       </div>
       <div class="support-modal-body">
         <div class="support-modal-sub">
-          If you enjoy the archive and daily stream recordings, you can support server &amp; storage costs directly via crypto below. Click <strong>Copy</strong> on any wallet address — thank you! 🙏
+          If you enjoy the archive and daily stream recordings, you can support server &amp; storage costs directly via crypto below. Click <strong>Copy</strong> to copy a wallet address, or <strong>QR Code</strong> to scan it with your wallet app — thank you! 🙏
         </div>
 
         <!-- Bitcoin (BTC) -->
@@ -1098,7 +1275,10 @@
           </div>
           <div class="crypto-addr-row">
             <div class="crypto-addr-box" id="addrBtc">bc1qp6yhnql9y3cj2wcfhjwvssaelh3jlw3v8rcjup</div>
-            <button type="button" class="crypto-copy-btn" data-copy-addr="bc1qp6yhnql9y3cj2wcfhjwvssaelh3jlw3v8rcjup">📋 Copy</button>
+            <div class="crypto-actions">
+              <button type="button" class="crypto-copy-btn" data-copy-addr="bc1qp6yhnql9y3cj2wcfhjwvssaelh3jlw3v8rcjup">📋 Copy</button>
+              <button type="button" class="crypto-qr-btn" data-qr-coin="btc">🔳 QR Code</button>
+            </div>
           </div>
         </div>
 
@@ -1110,7 +1290,10 @@
           </div>
           <div class="crypto-addr-row">
             <div class="crypto-addr-box" id="addrUsdt">TDZjhNPR7n6jyRPrLcUiZcMeGemDYs6Yfj</div>
-            <button type="button" class="crypto-copy-btn" data-copy-addr="TDZjhNPR7n6jyRPrLcUiZcMeGemDYs6Yfj">📋 Copy</button>
+            <div class="crypto-actions">
+              <button type="button" class="crypto-copy-btn" data-copy-addr="TDZjhNPR7n6jyRPrLcUiZcMeGemDYs6Yfj">📋 Copy</button>
+              <button type="button" class="crypto-qr-btn" data-qr-coin="usdt">🔳 QR Code</button>
+            </div>
           </div>
         </div>
 
@@ -1122,9 +1305,40 @@
           </div>
           <div class="crypto-addr-row">
             <div class="crypto-addr-box" id="addrLtc">ltc1qqezwuntk5h7g3vcdd2f6k02uzzask2uv8afr85</div>
-            <button type="button" class="crypto-copy-btn" data-copy-addr="ltc1qqezwuntk5h7g3vcdd2f6k02uzzask2uv8afr85">📋 Copy</button>
+            <div class="crypto-actions">
+              <button type="button" class="crypto-copy-btn" data-copy-addr="ltc1qqezwuntk5h7g3vcdd2f6k02uzzask2uv8afr85">📋 Copy</button>
+              <button type="button" class="crypto-qr-btn" data-qr-coin="ltc">🔳 QR Code</button>
+            </div>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- QR Code Viewer (opens on top of Support modal) -->
+  <div class="qr-viewer-backdrop" id="qrViewerBackdrop" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="qr-viewer" id="qrViewerCard">
+      <div class="qr-viewer-header">
+        <div class="qr-viewer-title">
+          <div class="qr-viewer-coin" id="qrViewerCoin">Bitcoin (BTC)</div>
+          <div class="qr-viewer-net" id="qrViewerNet">Bitcoin Network</div>
+        </div>
+        <button type="button" class="support-modal-close" id="qrViewerCloseBtn" title="Close">✕</button>
+      </div>
+      <div class="qr-viewer-body">
+        <div class="qr-image-frame">
+          <div class="qr-loading" id="qrLoadingText">Loading QR code...</div>
+          <img id="qrViewerImg" alt="Wallet QR Code" referrerpolicy="no-referrer" />
+        </div>
+        <div class="qr-scan-hint">📱 Scan with your crypto wallet app to send</div>
+        <div class="qr-addr-row">
+          <div class="crypto-addr-box" id="qrViewerAddr"></div>
+          <button type="button" class="crypto-copy-btn" id="qrViewerCopyBtn" data-copy-addr="">📋 Copy</button>
+        </div>
+        <div class="qr-warning" id="qrViewerWarning"></div>
+      </div>
+      <div class="qr-viewer-footer">
+        <button type="button" class="qr-back-btn" id="qrViewerBackBtn">← Back to All Wallets</button>
       </div>
     </div>
   </div>
@@ -1812,9 +2026,97 @@
         });
       }
       window.addEventListener('keydown', e => {
-        if (e.key === 'Escape' && supportBackdrop && supportBackdrop.classList.contains('visible')) {
+        if (e.key !== 'Escape') return;
+        const qrBd = document.getElementById('qrViewerBackdrop');
+        if (qrBd && qrBd.classList.contains('visible')) {
+          closeQrViewer();
+          return;
+        }
+        if (supportBackdrop && supportBackdrop.classList.contains('visible')) {
           closeSupportModal();
         }
+      });
+
+      // QR Code Viewer (image ↔ coin mapping verified against the address printed on each QR image)
+      const CRYPTO_QR_DATA = {
+        btc: {
+          coin: '🟠 Bitcoin (BTC)',
+          net: 'BTC · Bitcoin Network',
+          addr: 'bc1qp6yhnql9y3cj2wcfhjwvssaelh3jlw3v8rcjup',
+          img: 'https://i.postimg.cc/v87pCByK/IMG-0069.jpg',
+          warning: '⚠️ Only send <strong>Bitcoin (BTC)</strong> on the Bitcoin network to this address. Other coins or networks will be lost forever.',
+          accent: 'rgba(247, 147, 26, 0.6)',
+          glow: 'rgba(247, 147, 26, 0.18)',
+          text: '#fbbf24',
+        },
+        usdt: {
+          coin: '🟢 USDT (Tether)',
+          net: 'TRC-20 · Tron Network',
+          addr: 'TDZjhNPR7n6jyRPrLcUiZcMeGemDYs6Yfj',
+          img: 'https://i.postimg.cc/mZ30KD45/IMG-0070.jpg',
+          warning: '⚠️ Only send <strong>USDT on TRC-20 (Tron)</strong> to this address. Do NOT send ERC-20 / BEP-20 USDT — it will be lost forever.',
+          accent: 'rgba(16, 185, 129, 0.6)',
+          glow: 'rgba(16, 185, 129, 0.18)',
+          text: '#34d399',
+        },
+        ltc: {
+          coin: '🔵 Litecoin (LTC)',
+          net: 'LTC · Litecoin Network',
+          addr: 'ltc1qqezwuntk5h7g3vcdd2f6k02uzzask2uv8afr85',
+          img: 'https://i.postimg.cc/7P1pj64t/IMG-0068.jpg',
+          warning: '⚠️ Only send <strong>Litecoin (LTC)</strong> on the Litecoin network to this address. Other coins or networks will be lost forever.',
+          accent: 'rgba(59, 130, 246, 0.6)',
+          glow: 'rgba(59, 130, 246, 0.18)',
+          text: '#93c5fd',
+        },
+      };
+
+      // Preload QR images so they appear instantly when opened
+      Object.values(CRYPTO_QR_DATA).forEach(d => { const im = new Image(); im.referrerPolicy = 'no-referrer'; im.src = d.img; });
+
+      const qrBackdrop = document.getElementById('qrViewerBackdrop');
+      const qrCard = document.getElementById('qrViewerCard');
+      const qrImg = document.getElementById('qrViewerImg');
+      const qrLoading = document.getElementById('qrLoadingText');
+      const qrCopyBtn = document.getElementById('qrViewerCopyBtn');
+
+      function openQrViewer(coinKey) {
+        const d = CRYPTO_QR_DATA[coinKey];
+        if (!d) return;
+        qrCard.style.setProperty('--qr-accent', d.accent);
+        qrCard.style.setProperty('--qr-glow', d.glow);
+        qrCard.style.setProperty('--qr-text', d.text);
+        document.getElementById('qrViewerCoin').textContent = d.coin;
+        document.getElementById('qrViewerNet').textContent = d.net;
+        document.getElementById('qrViewerAddr').textContent = d.addr;
+        document.getElementById('qrViewerWarning').innerHTML = d.warning;
+        qrCopyBtn.setAttribute('data-copy-addr', d.addr);
+        qrCopyBtn.textContent = '📋 Copy';
+        qrCopyBtn.classList.remove('copied');
+
+        qrImg.classList.remove('loaded');
+        qrLoading.textContent = 'Loading QR code...';
+        qrLoading.style.display = 'block';
+        qrImg.onload = () => { qrImg.classList.add('loaded'); qrLoading.style.display = 'none'; };
+        qrImg.onerror = () => { qrLoading.textContent = '⚠️ QR image failed to load — please use the Copy button.'; };
+        qrImg.alt = d.coin + ' wallet QR code';
+        qrImg.src = d.img;
+
+        qrBackdrop.classList.add('visible');
+        qrBackdrop.setAttribute('aria-hidden', 'false');
+      }
+      function closeQrViewer() {
+        qrBackdrop.classList.remove('visible');
+        qrBackdrop.setAttribute('aria-hidden', 'true');
+      }
+
+      document.querySelectorAll('.crypto-qr-btn').forEach(btn => {
+        btn.addEventListener('click', () => openQrViewer(btn.getAttribute('data-qr-coin')));
+      });
+      document.getElementById('qrViewerCloseBtn').addEventListener('click', closeQrViewer);
+      document.getElementById('qrViewerBackBtn').addEventListener('click', closeQrViewer);
+      qrBackdrop.addEventListener('click', e => {
+        if (e.target === qrBackdrop) closeQrViewer();
       });
 
       function copyTextToClipboard(text) {
