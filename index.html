@@ -119,6 +119,205 @@
       border-color: var(--accent-gold);
       color: var(--accent-gold);
     }
+    .support-me-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 13.5px;
+      font-weight: 800;
+      letter-spacing: 0.2px;
+      padding: 8px 16px;
+      border-radius: 9px;
+      border: 1px solid #fbbf24;
+      background: linear-gradient(135deg, #f5a623 0%, #d97706 100%);
+      color: #0b0e14;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(245, 166, 35, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+      transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
+    }
+    .support-me-btn:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.07);
+      box-shadow: 0 6px 22px rgba(245, 166, 35, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.45);
+    }
+    .support-me-btn:active {
+      transform: translateY(0);
+    }
+
+    /* Support Me Crypto Modal */
+    .support-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(5, 8, 14, 0.78);
+      backdrop-filter: blur(5px);
+      z-index: 1100;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+    .support-modal-backdrop.visible {
+      display: flex;
+    }
+    .support-modal {
+      width: 100%;
+      max-width: 540px;
+      background: linear-gradient(180deg, #161d2b 0%, #101520 100%);
+      border: 1px solid rgba(245, 166, 35, 0.5);
+      border-radius: 16px;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.85), 0 0 30px rgba(245, 166, 35, 0.14);
+      overflow: hidden;
+      animation: supportModalIn 0.18s ease-out;
+    }
+    @keyframes supportModalIn {
+      from { opacity: 0; transform: translateY(8px) scale(0.97); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .support-modal-header {
+      padding: 16px 20px;
+      background: linear-gradient(90deg, rgba(245, 166, 35, 0.16) 0%, rgba(217, 119, 6, 0.05) 100%);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .support-modal-title {
+      font-size: 16.5px;
+      font-weight: 800;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .support-modal-close {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      font-size: 15px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s;
+    }
+    .support-modal-close:hover {
+      background: rgba(239, 68, 68, 0.2);
+      border-color: var(--accent-red);
+      color: #fff;
+    }
+    .support-modal-body {
+      padding: 18px 20px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 13px;
+    }
+    .support-modal-sub {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+    .crypto-card {
+      background: #0b0e14;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      padding: 12px 14px;
+      transition: border-color 0.15s;
+    }
+    .crypto-card:hover {
+      border-color: rgba(245, 166, 35, 0.45);
+    }
+    .crypto-card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 8px;
+      flex-wrap: wrap;
+    }
+    .crypto-coin-name {
+      font-size: 13.5px;
+      font-weight: 800;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+    .crypto-coin-badge {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 99px;
+      font-family: Consolas, monospace;
+    }
+    .badge-btc {
+      background: rgba(247, 147, 26, 0.16);
+      border: 1px solid rgba(247, 147, 26, 0.45);
+      color: #fbbf24;
+    }
+    .badge-usdt {
+      background: rgba(16, 185, 129, 0.16);
+      border: 1px solid rgba(16, 185, 129, 0.45);
+      color: #34d399;
+    }
+    .badge-ltc {
+      background: rgba(59, 130, 246, 0.16);
+      border: 1px solid rgba(59, 130, 246, 0.45);
+      color: #93c5fd;
+    }
+    .crypto-addr-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .crypto-addr-box {
+      flex: 1;
+      background: #131824;
+      border: 1px solid #1e293b;
+      border-radius: 7px;
+      padding: 8px 10px;
+      font-family: Consolas, monospace;
+      font-size: 12px;
+      color: #e2e8f0;
+      word-break: break-all;
+      user-select: all;
+    }
+    .crypto-copy-btn {
+      flex-shrink: 0;
+      background: #1e293b;
+      border: 1px solid #334155;
+      color: #f8fafc;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 8px 13px;
+      border-radius: 7px;
+      cursor: pointer;
+      transition: all 0.15s;
+      min-width: 96px;
+      text-align: center;
+    }
+    .crypto-copy-btn:hover {
+      background: var(--accent-gold);
+      border-color: var(--accent-gold);
+      color: #0b0e14;
+    }
+    .crypto-copy-btn.copied {
+      background: var(--accent-green);
+      border-color: var(--accent-green);
+      color: #052e16;
+    }
+    @media (max-width: 520px) {
+      .crypto-addr-row {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .crypto-copy-btn {
+        width: 100%;
+      }
+    }
 
     /* Main Container */
     .layout-container {
@@ -774,7 +973,8 @@
         <div class="stat-pill">🔄 Updated: <strong id="statUpdatedAt">...</strong></div>
       </div>
 
-      <div class="forum-links">
+      <div class="forum-links" style="align-items: center;">
+        <button type="button" class="support-me-btn" id="openSupportModalBtn">💛 Support Me</button>
         <a class="forum-btn" href="https://nobodyhome.ws/thread-17945.html" target="_blank" rel="noopener">★ BG & Group Thread (#17945)</a>
         <a class="forum-btn" href="https://nobodyhome.ws/thread-10138.html" target="_blank" rel="noopener">◈ Sharing Video Thread (#10138)</a>
       </div>
@@ -862,6 +1062,57 @@
         </div>
       </div>
     </a>
+  </div>
+
+  <!-- Support Me Crypto Wallet Modal -->
+  <div class="support-modal-backdrop" id="supportModalBackdrop" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="support-modal">
+      <div class="support-modal-header">
+        <div class="support-modal-title">💛 Support MashiroMai Archive</div>
+        <button type="button" class="support-modal-close" id="closeSupportModalBtn" title="Close">✕</button>
+      </div>
+      <div class="support-modal-body">
+        <div class="support-modal-sub">
+          If you enjoy the archive and daily stream recordings, you can support server &amp; storage costs directly via crypto below. Click <strong>Copy</strong> on any wallet address — thank you! 🙏
+        </div>
+
+        <!-- Bitcoin (BTC) -->
+        <div class="crypto-card">
+          <div class="crypto-card-top">
+            <div class="crypto-coin-name">🟠 Bitcoin (BTC)</div>
+            <span class="crypto-coin-badge badge-btc">BTC · Bitcoin Network</span>
+          </div>
+          <div class="crypto-addr-row">
+            <div class="crypto-addr-box" id="addrBtc">bc1qp6yhnql9y3cj2wcfhjwvssaelh3jlw3v8rcjup</div>
+            <button type="button" class="crypto-copy-btn" data-copy-addr="bc1qp6yhnql9y3cj2wcfhjwvssaelh3jlw3v8rcjup">📋 Copy</button>
+          </div>
+        </div>
+
+        <!-- USDT (Tron / TRC-20) -->
+        <div class="crypto-card">
+          <div class="crypto-card-top">
+            <div class="crypto-coin-name">🟢 USDT (Tether)</div>
+            <span class="crypto-coin-badge badge-usdt">TRC-20 · Tron Network</span>
+          </div>
+          <div class="crypto-addr-row">
+            <div class="crypto-addr-box" id="addrUsdt">TDZjhNPR7n6jyRPrLcUiZcMeGemDYs6Yfj</div>
+            <button type="button" class="crypto-copy-btn" data-copy-addr="TDZjhNPR7n6jyRPrLcUiZcMeGemDYs6Yfj">📋 Copy</button>
+          </div>
+        </div>
+
+        <!-- Litecoin (LTC) -->
+        <div class="crypto-card">
+          <div class="crypto-card-top">
+            <div class="crypto-coin-name">🔵 Litecoin (LTC)</div>
+            <span class="crypto-coin-badge badge-ltc">LTC · Litecoin Network</span>
+          </div>
+          <div class="crypto-addr-row">
+            <div class="crypto-addr-box" id="addrLtc">ltc1qqezwuntk5h7g3vcdd2f6k02uzzask2uv8afr85</div>
+            <button type="button" class="crypto-copy-btn" data-copy-addr="ltc1qqezwuntk5h7g3vcdd2f6k02uzzask2uv8afr85">📋 Copy</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <script>
@@ -1478,6 +1729,73 @@
         applyUrlHashSelection();
         renderPerformerSidebar();
         renderMainView();
+      });
+
+      // Support Me Crypto Modal Logic
+      const supportBackdrop = document.getElementById('supportModalBackdrop');
+      const openSupportBtn = document.getElementById('openSupportModalBtn');
+      const closeSupportBtn = document.getElementById('closeSupportModalBtn');
+
+      function openSupportModal() {
+        supportBackdrop.classList.add('visible');
+        supportBackdrop.setAttribute('aria-hidden', 'false');
+      }
+      function closeSupportModal() {
+        supportBackdrop.classList.remove('visible');
+        supportBackdrop.setAttribute('aria-hidden', 'true');
+      }
+
+      if (openSupportBtn) {
+        openSupportBtn.addEventListener('click', openSupportModal);
+      }
+      if (closeSupportBtn) {
+        closeSupportBtn.addEventListener('click', closeSupportModal);
+      }
+      if (supportBackdrop) {
+        supportBackdrop.addEventListener('click', e => {
+          if (e.target === supportBackdrop) closeSupportModal();
+        });
+      }
+      window.addEventListener('keydown', e => {
+        if (e.key === 'Escape' && supportBackdrop && supportBackdrop.classList.contains('visible')) {
+          closeSupportModal();
+        }
+      });
+
+      function copyTextToClipboard(text) {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          return navigator.clipboard.writeText(text).catch(() => fallbackCopyText(text));
+        }
+        return Promise.resolve(fallbackCopyText(text));
+      }
+      function fallbackCopyText(text) {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.focus();
+        ta.select();
+        try { document.execCommand('copy'); } catch (e) {}
+        document.body.removeChild(ta);
+      }
+
+      document.querySelectorAll('.crypto-copy-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const addr = btn.getAttribute('data-copy-addr') || '';
+          if (!addr) return;
+          copyTextToClipboard(addr).then(() => {
+            const origText = btn.getAttribute('data-orig-label') || '📋 Copy';
+            btn.setAttribute('data-orig-label', origText);
+            btn.textContent = '✅ Copied!';
+            btn.classList.add('copied');
+            if (btn._copyResetTimer) clearTimeout(btn._copyResetTimer);
+            btn._copyResetTimer = setTimeout(() => {
+              btn.textContent = origText;
+              btn.classList.remove('copied');
+            }, 2200);
+          });
+        });
       });
 
       loadCatalog();
