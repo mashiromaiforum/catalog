@@ -2032,6 +2032,27 @@
         }
 
         allItems = payload.items;
+        for (const it of allItems) {
+          if (!it || !it.title) continue;
+          const estM = it.title.match(/(20\d{2}-\d{2}-\d{2})_(\d{2})(\d{2})-to-(\d{2})(\d{2})_EST/i);
+          if (estM) {
+            if (!it.dur || it.dur === '--:--:--' || it.dur === '--:--') {
+              const sMin = parseInt(estM[2], 10) * 60 + parseInt(estM[3], 10);
+              const eMin = parseInt(estM[4], 10) * 60 + parseInt(estM[5], 10);
+              const diffMin = eMin >= sMin ? (eMin - sMin) : ((24 * 60 - sMin) + eMin);
+              if (diffMin > 0 && diffMin < 24 * 60) {
+                const hh = String(Math.floor(diffMin / 60)).padStart(2, '0');
+                const mm = String(diffMin % 60).padStart(2, '0');
+                it.dur = hh + ':' + mm + ':00';
+                it.durSec = diffMin * 60;
+              }
+            }
+            const realEstEndTs = Date.parse(estM[1] + 'T' + estM[4] + ':' + estM[5] + ':00-05:00');
+            if (realEstEndTs && (!it.ts || it.ts === Date.parse(estM[1] + 'T12:00:00Z'))) {
+              it.ts = realEstEndTs;
+            }
+          }
+        }
         buildPerformerIndex();
 
         // Stats header
