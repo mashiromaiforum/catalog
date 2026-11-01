@@ -1267,12 +1267,12 @@
       position: absolute;
       left: 50%;
       top: 50%;
-      transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%) scale(0.85);
       width: 44px;
       height: 44px;
       border-radius: 99px;
-      background: rgba(220, 38, 38, 0.88);
-      border: 2px solid rgba(255, 255, 255, 0.88);
+      background: rgba(220, 38, 38, 0.9);
+      border: 2px solid rgba(255, 255, 255, 0.9);
       color: #fff;
       display: flex;
       align-items: center;
@@ -1282,10 +1282,14 @@
       box-shadow: 0 4px 16px rgba(0, 0, 0, 0.7);
       pointer-events: none;
       z-index: 2;
-      transition: transform 0.16s ease, background 0.16s ease;
+      opacity: 0;
+      transition: opacity 0.18s ease, transform 0.18s ease, background 0.18s ease;
     }
-    .video-grid-card:hover .grid-play-badge {
-      transform: translate(-50%, -50%) scale(1.1);
+    .grid-thumb-link:hover .grid-play-badge,
+    .grid-thumb-link:focus-visible .grid-play-badge,
+    .grid-thumb-link:active .grid-play-badge {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1.08);
       background: #ef4444;
     }
     .grid-card-body {
@@ -1736,12 +1740,12 @@
       <div class="results-bar">
         <span id="resultsSummaryText">Loading catalog...</span>
         <div class="results-right-wrap">
-          <span class="preview-tip-pill" id="activeFilterHint">👁 Hover mouse or long-touch "▶ Watch Video" to see video preview</span>
+          <span class="preview-tip-pill" id="activeFilterHint">⊞ Grid View: All video thumbnails loaded directly from Vidara</span>
           <div class="view-mode-group" id="viewModeGroup" aria-label="View Layout Options">
             <span class="view-mode-label">View:</span>
-            <button type="button" class="view-mode-btn active" data-view="list" title="List View (Hover to Preview)">☰ List</button>
+            <button type="button" class="view-mode-btn" data-view="list" title="List View (Hover to Preview)">☰ List</button>
             <button type="button" class="view-mode-btn" data-view="grid-2" title="Grid View — 2 Videos per Row">⊞ 2</button>
-            <button type="button" class="view-mode-btn" data-view="grid-3" title="Grid View — 3 Videos per Row">⊞ 3</button>
+            <button type="button" class="view-mode-btn active" data-view="grid-3" title="Grid View — 3 Videos per Row">⊞ 3</button>
             <button type="button" class="view-mode-btn" data-view="grid-4" title="Grid View — 4 Videos per Row">⊞ 4</button>
           </div>
         </div>
@@ -1953,9 +1957,9 @@
       let perfSortMode = 'count'; // 'count' | 'az'
       let perfSearchQuery = '';
       let visibleLimit = 100;
-      let viewMode = 'list'; // 'list' | 'grid-2' | 'grid-3' | 'grid-4'
+      let viewMode = 'grid-3'; // 'list' | 'grid-2' | 'grid-3' | 'grid-4'
       try {
-        const savedView = localStorage.getItem('mashiro_catalog_view_mode');
+        const savedView = localStorage.getItem('mashiro_catalog_view_mode_v2');
         if (savedView && ['list', 'grid-2', 'grid-3', 'grid-4'].includes(savedView)) {
           viewMode = savedView;
         }
@@ -2646,7 +2650,7 @@
           if (!nextMode || !['list', 'grid-2', 'grid-3', 'grid-4'].includes(nextMode)) return;
           if (viewMode === nextMode) return;
           viewMode = nextMode;
-          try { localStorage.setItem('mashiro_catalog_view_mode', viewMode); } catch (err) {}
+          try { localStorage.setItem('mashiro_catalog_view_mode_v2', viewMode); } catch (err) {}
           renderMainView();
         });
       }
