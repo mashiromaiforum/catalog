@@ -195,6 +195,87 @@
       opacity: 1;
     }
 
+    /* 24-Hour Highlights & Fire Badges */
+    .recent-24h-pill {
+      background: linear-gradient(135deg, rgba(239, 68, 68, 0.18) 0%, rgba(245, 158, 11, 0.22) 100%);
+      border: 1px solid rgba(245, 158, 11, 0.55);
+      border-radius: 8px;
+      padding: 6px 14px;
+      font-size: 12px;
+      color: #fef3c7;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      font-weight: 700;
+      box-shadow: 0 2px 10px rgba(245, 158, 11, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+      transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
+    }
+    .recent-24h-pill:hover {
+      transform: translateY(-1px);
+      border-color: #fbbf24;
+      color: #ffffff;
+      background: linear-gradient(135deg, rgba(239, 68, 68, 0.28) 0%, rgba(245, 158, 11, 0.32) 100%);
+      box-shadow: 0 4px 16px rgba(245, 158, 11, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    }
+    .recent-24h-pill.active {
+      background: linear-gradient(135deg, rgba(239, 68, 68, 0.38) 0%, rgba(245, 158, 11, 0.45) 100%);
+      border-color: #f59e0b;
+      box-shadow: 0 0 18px rgba(245, 158, 11, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+      color: #ffffff;
+    }
+    .recent-24h-pill .pill-arrow {
+      font-size: 10px;
+      opacity: 0.8;
+      transition: transform 0.15s ease;
+    }
+    .recent-24h-pill:hover .pill-arrow {
+      transform: translate(2px, -2px);
+      opacity: 1;
+    }
+    .fire-pulse {
+      display: inline-block;
+      animation: emberPulse 2.2s infinite ease-in-out;
+      transform-origin: center bottom;
+    }
+    @keyframes emberPulse {
+      0%, 100% { transform: scale(1); filter: drop-shadow(0 0 2px rgba(245, 158, 11, 0.4)); }
+      50% { transform: scale(1.22); filter: drop-shadow(0 0 6px rgba(239, 68, 68, 0.85)); }
+    }
+    .tag-new-card {
+      display: inline-flex;
+      align-items: center;
+      gap: 2px;
+      padding: 2px 6px;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.4px;
+      border-radius: 4px;
+      background: linear-gradient(135deg, #ef4444 0%, #d97706 100%);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      box-shadow: 0 2px 8px rgba(239, 68, 68, 0.45);
+      text-transform: uppercase;
+      line-height: 1.2;
+    }
+    .clear-24h-filter-btn {
+      margin-left: 8px;
+      padding: 3px 9px;
+      font-size: 11px;
+      border-radius: 6px;
+      border: 1px solid rgba(245, 158, 11, 0.5);
+      background: rgba(245, 158, 11, 0.15);
+      color: #fef3c7;
+      cursor: pointer;
+      font-weight: 700;
+      transition: all 0.15s ease;
+    }
+    .clear-24h-filter-btn:hover {
+      background: rgba(245, 158, 11, 0.3);
+      color: #ffffff;
+      border-color: #fbbf24;
+    }
+
     /* Support Me Crypto Modal */
     .support-modal-backdrop {
       position: fixed;
@@ -1713,6 +1794,11 @@
         <div class="stat-pill">💃 Performers: <strong id="statTotalPerformers">...</strong></div>
         <div class="stat-pill">⏱ Total Runtime: <strong id="statTotalHours">...</strong></div>
         <div class="stat-pill">🔄 Updated: <strong id="statUpdatedAt">...</strong></div>
+        <button type="button" class="recent-24h-pill" id="recent24hHeaderBtn" title="Click to view videos added in the last 24 hours" style="display:none;">
+          <span class="fire-pulse">🔥</span>
+          <span id="recent24hHeaderLabel">... Videos Added (Last 24h)</span>
+          <span class="pill-arrow">↗</span>
+        </button>
       </div>
 
       <div class="forum-links">
@@ -1763,6 +1849,9 @@
           </div>
           <div class="filter-pills">
             <button class="filter-btn active" data-thread="all">All Videos</button>
+            <button class="filter-btn" data-thread="recent24h" id="recent24hFilterBtn" style="display:none;">
+              <span class="fire-pulse">🔥</span> Added Last 24h (<span id="recent24hFilterCount">0</span>)
+            </button>
             <button class="filter-btn" data-thread="primary">BG & Group (#17945)</button>
             <button class="filter-btn" data-thread="secondary">Solo / Non-BG (#10138)</button>
           </div>
@@ -2109,6 +2198,28 @@
           document.getElementById('statUpdatedAt').textContent = d.toISOString().slice(0, 10);
         }
 
+        // Rolling 24-hour dynamic count
+        const now = Date.now();
+        const cutoff24h = now - (24 * 60 * 60 * 1000);
+        const recent24hCount = allItems.filter(it => it.ts && it.ts >= cutoff24h).length;
+
+        const header24hBtn = document.getElementById('recent24hHeaderBtn');
+        const header24hLabel = document.getElementById('recent24hHeaderLabel');
+        const filter24hBtn = document.getElementById('recent24hFilterBtn');
+        const filter24hCount = document.getElementById('recent24hFilterCount');
+
+        if (recent24hCount > 0) {
+          if (header24hLabel) {
+            header24hLabel.textContent = recent24hCount.toLocaleString() + ' Videos Added (Last 24h)';
+          }
+          if (header24hBtn) header24hBtn.style.display = 'inline-flex';
+          if (filter24hCount) filter24hCount.textContent = recent24hCount.toLocaleString();
+          if (filter24hBtn) filter24hBtn.style.display = 'inline-block';
+        } else {
+          if (header24hBtn) header24hBtn.style.display = 'none';
+          if (filter24hBtn) filter24hBtn.style.display = 'none';
+        }
+
         applyUrlHashSelection();
         renderPerformerSidebar();
         renderMainView();
@@ -2157,6 +2268,9 @@
           selectedPerformer = findMatchingPerformerKey(rawM);
         } else {
           selectedPerformer = '';
+        }
+        if (params.filter === '24h' || params.recent === '24h' || params.new === '24h') {
+          selectedThread = 'recent24h';
         }
       }
 
@@ -2235,6 +2349,10 @@
           banner.classList.remove('visible');
         }
 
+        // Dynamic rolling 24-hour cutoff
+        const now = Date.now();
+        const cutoff24h = now - (24 * 60 * 60 * 1000);
+
         // Filter items
         let filtered = allItems.filter(it => {
           if (selectedPerformer) {
@@ -2243,8 +2361,13 @@
               (it.title && it.title.toLowerCase().includes(selectedPerformer));
             if (!matchPerf) return false;
           }
-          if (selectedThread === 'primary' && it.thread !== 'primary') return false;
-          if (selectedThread === 'secondary' && it.thread !== 'secondary') return false;
+          if (selectedThread === 'recent24h') {
+            if (!it.ts || it.ts < cutoff24h) return false;
+          } else if (selectedThread === 'primary' && it.thread !== 'primary') {
+            return false;
+          } else if (selectedThread === 'secondary' && it.thread !== 'secondary') {
+            return false;
+          }
 
           if (searchQuery) {
             const q = searchQuery.toLowerCase().trim();
@@ -2272,9 +2395,22 @@
           return ((b.ts || 0) - (a.ts || 0)) || String(b.upDate || '').localeCompare(String(a.upDate || ''));
         });
 
-        document.getElementById('resultsSummaryText').textContent =
-          'Showing ' + Math.min(filtered.length, visibleLimit) + ' of ' + filtered.length + ' matching videos' +
-          (selectedPerformer ? (' for "' + selectedPerformer + '"') : '');
+        const resultsSummaryEl = document.getElementById('resultsSummaryText');
+        if (selectedThread === 'recent24h') {
+          resultsSummaryEl.innerHTML =
+            '🔥 Showing ' + Math.min(filtered.length, visibleLimit) + ' of ' + filtered.length +
+            ' videos added in the last 24 hours <button type="button" class="clear-24h-filter-btn" id="clear24hFilterBtn">✕ View All Videos</button>';
+        } else {
+          resultsSummaryEl.textContent =
+            'Showing ' + Math.min(filtered.length, visibleLimit) + ' of ' + filtered.length + ' matching videos' +
+            (selectedPerformer ? (' for "' + selectedPerformer + '"') : '');
+        }
+
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+          btn.classList.toggle('active', btn.getAttribute('data-thread') === selectedThread);
+        });
+        const hBtn = document.getElementById('recent24hHeaderBtn');
+        if (hBtn) hBtn.classList.toggle('active', selectedThread === 'recent24h');
 
         const listEl = document.getElementById('videoListContainer');
         const loadMoreBtn = document.getElementById('loadMoreBtn');
@@ -2308,6 +2444,8 @@
         const slice = filtered.slice(0, visibleLimit);
         const rowsHtml = slice.map((it, idx) => {
           const numStr = String(idx + 1).padStart(2, '0') + '.';
+          const isRecent = it.ts && it.ts >= cutoff24h;
+          const newBadgeHtml = isRecent ? '<span class="tag-new-card">🔥 NEW</span>' : '';
           let threadBadge = '<span class="tag-badge tag-archive">Classic Archive</span>';
           if (it.thread === 'primary') threadBadge = '<span class="tag-badge tag-primary">BG & Group (#17945)</span>';
           else if (it.thread === 'secondary') threadBadge = '<span class="tag-badge tag-secondary">Solo / Non-BG (#10138)</span>';
@@ -2337,6 +2475,7 @@
                   thumbImgHtml +
                   '<div class="grid-thumb-top-bar">' +
                     '<span class="grid-idx-pill">#' + String(idx + 1).padStart(2, '0') + '</span>' +
+                    newBadgeHtml +
                     threadBadge +
                   '</div>' +
                   '<div class="grid-play-badge">▶</div>' +
@@ -2365,6 +2504,7 @@
                 '<div class="video-info">' +
                   '<div class="video-title">' + escapeHtml(it.title) + '</div>' +
                   '<div class="video-sub">' +
+                    newBadgeHtml +
                     threadBadge +
                     perfPills +
                     (dateLabel ? ('<span>' + dateLabel + '</span>') : '') +
@@ -2667,6 +2807,38 @@
           visibleLimit = 100;
           renderMainView();
         });
+      });
+
+      const header24hBtn = document.getElementById('recent24hHeaderBtn');
+      if (header24hBtn) {
+        header24hBtn.addEventListener('click', () => {
+          if (selectedThread === 'recent24h') {
+            selectedThread = 'all';
+          } else {
+            selectedThread = 'recent24h';
+            selectedPerformer = '';
+            searchQuery = '';
+            const sIn = document.getElementById('mainSearchInput');
+            if (sIn) sIn.value = '';
+            sortBy = 'uploaded_desc';
+            const sSel = document.getElementById('sortSelect');
+            if (sSel) sSel.value = 'uploaded_desc';
+          }
+          visibleLimit = 100;
+          renderMainView();
+          const target = document.getElementById('videoListContainer');
+          if (target && selectedThread === 'recent24h') {
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        });
+      }
+
+      document.getElementById('resultsSummaryText').addEventListener('click', e => {
+        if (e.target && e.target.id === 'clear24hFilterBtn') {
+          selectedThread = 'all';
+          visibleLimit = 100;
+          renderMainView();
+        }
       });
 
       document.getElementById('sortSelect').addEventListener('change', e => {
